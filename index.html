@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Aumari Joseph — Systems administrator, founder of Cove</title>
+  <meta name="description" content="Aumari Joseph is an IT compliance and systems administrator in Saint Lucia, and the founder of Cove — a booking platform for Caribbean tour operators." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <!-- ============ NAV ============ -->
+  <header class="nav" id="nav" data-state="transparent">
+    <div class="nav__inner">
+      <a href="#top" class="nav__logo" aria-label="Home">
+        <span class="nav__logo-mark">A</span><span class="nav__logo-mark nav__logo-mark--muted">J</span><span class="nav__logo-dot" aria-hidden="true"></span><span class="nav__logo-text">aumari.jo</span>
+      </a>
+
+      <nav class="nav__links" aria-label="Primary">
+        <a href="#about">About</a>
+        <a href="#projects">Projects</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <button class="nav__burger" id="burger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open menu">
+        <span></span><span></span>
+      </button>
+    </div>
+
+    <div class="nav__mobile" id="mobile-menu" hidden>
+      <a href="#about">About</a>
+      <a href="#projects">Projects</a>
+      <a href="#contact">Contact</a>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============ HERO ============ -->
+    <section class="hero" id="top">
+      <div class="hero__grid-lines" aria-hidden="true"></div>
+
+      <div class="hero__inner">
+
+        <div class="hero__left">
+          <p class="eyebrow eyebrow--light">
+            <span class="dot dot--live" aria-hidden="true"></span>
+            Saint Lucia · 13.9094° N, 60.9789° W
+          </p>
+
+          <h1 class="hero__title">
+            Hi, I'm<br>
+            Aumari <span class="hero__title-accent">Joseph.</span>
+          </h1>
+
+          <p class="hero__sub">
+            IT compliance &amp; systems administrator by day.
+            Founder building <a href="#projects" class="hero__link">Cove</a> — a booking platform for Caribbean tour operators — by night.
+          </p>
+
+          <div class="hero__cta-row">
+            <a href="#projects" class="btn btn--primary">
+              See my work
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </a>
+            <a href="#contact" class="btn btn--ghost btn--ghost-light">Get in touch</a>
+          </div>
+
+          <!-- SIGNATURE: mono status block, treats his life like a uptime report -->
+          <div class="status" role="group" aria-label="Currently">
+            <div class="status__row status__row--cmd">
+              <span class="status__prompt">›</span> status --running
+            </div>
+            <div class="status__row">
+              <span class="status__pip status__pip--green" aria-hidden="true"></span>
+              <span class="status__label">liberty caribbean</span>
+              <span class="status__meta">IT compliance · sysadmin</span>
+              <span class="status__since">since Feb 2024</span>
+            </div>
+            <div class="status__row">
+              <span class="status__pip status__pip--amber" aria-hidden="true"></span>
+              <span class="status__label">cove</span>
+              <span class="status__meta">founder · engineering</span>
+              <span class="status__since">shipping v1</span>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="hero__right">
+          <div class="portrait" aria-hidden="true">
+            <div class="portrait__ring portrait__ring--1"></div>
+            <div class="portrait__ring portrait__ring--2"></div>
+            <div class="portrait__disc">
+              <span class="portrait__monogram">AJ</span>
+            </div>
+          </div>
+          <p class="portrait__caption">
+            <span>fig. 01</span>
+            <span aria-hidden="true">—</span>
+            <span>Aumari, on-island</span>
+          </p>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- ============ ABOUT ============ -->
+    <section class="about section" id="about">
+      <div class="section__inner">
+
+        <header class="section__header">
+          <p class="eyebrow">// about</p>
+          <h2 class="section__title">Track record, not tagline.</h2>
+          <p class="section__lede">
+            Three years running production systems for a regional telco, one year building a live SaaS.
+            Compliance discipline on one side, shipping discipline on the other.
+          </p>
+        </header>
+
+        <div class="about__grid">
+
+          <!-- LEFT: log-style timeline -->
+          <div class="about__col">
+
+            <h3 class="col__title">Experience</h3>
+            <ol class="log">
+              <li class="log__row">
+                <span class="log__date">2024 — now</span>
+                <div class="log__body">
+                  <p class="log__role">IT Compliance Associate · Systems Administrator</p>
+                  <p class="log__org">Liberty Caribbean</p>
+                  <p class="log__desc">
+                    SOX access reviews across Windows &amp; Linux fleets, GITC testing, disaster-recovery
+                    restoration testing, forensic log correlation. Deployed jump stations under a ZTNA
+                    strategy; stood up SIEM tooling; wrote the PowerShell/Bash that keeps the reviews honest.
+                  </p>
+                </div>
+              </li>
+              <li class="log__row">
+                <span class="log__date">2023 — 2024</span>
+                <div class="log__body">
+                  <p class="log__role">Trainee I.T. Specialist</p>
+                  <p class="log__org">Liberty Caribbean</p>
+                  <p class="log__desc">
+                    Endpoint and network support, O365 &amp; MDM administration, Active Directory,
+                    OS deployment, backups &amp; recovery, Cisco HCS call-centre support.
+                  </p>
+                </div>
+              </li>
+            </ol>
+
+            <h3 class="col__title col__title--spaced">Education</h3>
+            <ol class="log log--compact">
+              <li class="log__row">
+                <span class="log__date">2021 — 2023</span>
+                <div class="log__body">
+                  <p class="log__role">Associate Degree, Computer Information Technology</p>
+                  <p class="log__org">Sir Arthur Lewis Community College</p>
+                </div>
+              </li>
+              <li class="log__row">
+                <span class="log__date">2021</span>
+                <div class="log__body">
+                  <p class="log__role">CVQ Level 1 · Data Operations</p>
+                  <p class="log__org">Monroe College</p>
+                </div>
+              </li>
+              <li class="log__row">
+                <span class="log__date">2016 — 2021</span>
+                <div class="log__body">
+                  <p class="log__role">CSEC · seven subjects, three grade-1s</p>
+                  <p class="log__org">Leon Hess Comprehensive Secondary School</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <!-- RIGHT: real cert cards + mono stack -->
+          <div class="about__col">
+
+            <h3 class="col__title">Certifications</h3>
+            <ul class="certs">
+              <li class="cert">
+                <p class="cert__vendor">CompTIA</p>
+                <p class="cert__name">Network+ <span class="cert__code">N10-009</span></p>
+                <p class="cert__date">Jan 2025</p>
+              </li>
+              <li class="cert">
+                <p class="cert__vendor">CompTIA</p>
+                <p class="cert__name">Security+ <span class="cert__code">SY0-701</span></p>
+                <p class="cert__date">Jul 2024</p>
+              </li>
+              <li class="cert">
+                <p class="cert__vendor">Fortinet</p>
+                <p class="cert__name">Certified Associate <span class="cert__code">FCA</span></p>
+                <p class="cert__date">Nov 2023</p>
+              </li>
+              <li class="cert">
+                <p class="cert__vendor">Cisco</p>
+                <p class="cert__name">Introduction to Data Science</p>
+                <p class="cert__date">Jan 2024</p>
+              </li>
+            </ul>
+
+            <h3 class="col__title col__title--spaced">Stack &amp; tools</h3>
+            <p class="stack">
+              <span>Python</span><span>JavaScript</span><span>PostgreSQL</span><span>Supabase</span><span>Flask</span><span>RHEL</span><span>Windows&nbsp;Server</span><span>Active&nbsp;Directory</span><span>PowerShell</span><span>Bash</span><span>Commvault</span><span>Twilio</span><span>SendGrid</span><span>SOX</span><span>ZTNA</span><span>SIEM</span>
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ============ PROJECTS ============ -->
+    <section class="projects section" id="projects">
+      <div class="section__inner">
+
+        <header class="section__header">
+          <p class="eyebrow">// projects</p>
+          <h2 class="section__title">One thing, built well.</h2>
+          <p class="section__lede">
+            Right now everything I ship is going into Cove. Here's what it is and why it matters
+            where I live.
+          </p>
+        </header>
+
+        <article class="project">
+
+          <div class="project__visual" aria-hidden="true">
+            <div class="project__frame">
+              <div class="project__browser">
+                <span class="project__dot"></span><span class="project__dot"></span><span class="project__dot"></span>
+                <p class="project__url">book.demo.cove.com</p>
+              </div>
+              <div class="project__stage">
+                <p class="project__stage-label">Screenshot placeholder</p>
+                <p class="project__stage-hint">Drop a Cove booking-page shot here</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="project__body">
+            <p class="project__meta">
+              <span>Cove Booking</span>
+              <span class="project__meta-sep">·</span>
+              <span>v1 · shipping</span>
+              <span class="project__meta-sep">·</span>
+              <span>Solo founder</span>
+            </p>
+            <h3 class="project__title">
+              A booking platform for<br>Caribbean tour operators.
+            </h3>
+            <p class="project__desc">
+              Every operator gets a public booking page on their own subdomain
+              (<span class="mono">book.&lt;slug&gt;.cove.com</span>) or custom domain, an owner
+              dashboard, and one hosted-checkout flow that handles time-slot capacity, age-based
+              pricing, WhatsApp reminders, and refunds. Multi-tenant on a single Flask + Supabase
+              stack — no iframes, no JS widget to install: operators paste one link.
+            </p>
+
+            <p class="project__stack">
+              <span>Python 3.11</span><span>Flask</span><span>Supabase</span><span>PostgreSQL</span><span>Tailwind</span><span>O-Pay</span><span>Twilio&nbsp;WhatsApp</span>
+            </p>
+
+            <div class="project__cta-row">
+              <a href="#" class="btn btn--primary">
+                Visit Cove
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M4 10l6-6M5 3h5v5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#" class="btn btn--ghost">Read the docs</a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+
+    <!-- ============ CONTACT ============ -->
+    <section class="contact section" id="contact">
+      <div class="section__inner section__inner--narrow">
+
+        <header class="section__header section__header--center">
+          <p class="eyebrow">// contact</p>
+          <h2 class="section__title">Get in touch.</h2>
+          <p class="section__lede">
+            Best via email — I answer within a day. Open to conversations about compliance work,
+            sysadmin roles, or Caribbean SaaS.
+          </p>
+        </header>
+
+        <ul class="channels">
+          <li>
+            <a href="mailto:aumarijoseph@gmail.com" class="channel">
+              <span class="channel__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 6.5A2.5 2.5 0 015.5 4h13A2.5 2.5 0 0121 6.5v11a2.5 2.5 0 01-2.5 2.5h-13A2.5 2.5 0 013 17.5v-11z" stroke="currentColor" stroke-width="1.5"/><path d="M3.5 6.5l8.5 6 8.5-6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="channel__label">Email</span>
+              <span class="channel__value">aumarijoseph@gmail.com</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/" class="channel" rel="noopener">
+              <span class="channel__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3.5" y="3.5" width="17" height="17" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M8 10.5v6M8 8v.01M11.5 16.5v-3.25a2.25 2.25 0 014.5 0v3.25M11.5 10.5v6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </span>
+              <span class="channel__label">LinkedIn</span>
+              <span class="channel__value">/in/aumari-joseph</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://github.com/" class="channel" rel="noopener">
+              <span class="channel__icon" aria-hidden="true">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3a9 9 0 00-2.85 17.54c.45.08.62-.2.62-.44v-1.55c-2.5.55-3.03-1.2-3.03-1.2-.41-1.04-1-1.32-1-1.32-.82-.56.06-.55.06-.55.9.06 1.38.93 1.38.93.8 1.38 2.11.98 2.63.75.08-.58.32-.98.57-1.2-2-.23-4.1-1-4.1-4.44 0-.98.35-1.78.93-2.4-.09-.23-.4-1.15.09-2.4 0 0 .75-.24 2.47.92a8.6 8.6 0 014.5 0c1.72-1.16 2.47-.92 2.47-.92.49 1.25.18 2.17.09 2.4.58.62.93 1.42.93 2.4 0 3.45-2.1 4.2-4.11 4.42.33.28.62.83.62 1.67v2.48c0 .24.16.53.63.44A9 9 0 0012 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+              </span>
+              <span class="channel__label">GitHub</span>
+              <span class="channel__value">/aumari</span>
+            </a>
+          </li>
+        </ul>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="footer">
+    <div class="footer__inner">
+      <p class="footer__left">
+        <span class="mono">© 2026 Aumari Joseph</span>
+        <span class="mono footer__sep">·</span>
+        <span class="mono">Saint Lucia, W.I.</span>
+      </p>
+      <p class="footer__right mono">
+        built by hand · <a href="#top">back to top ↑</a>
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

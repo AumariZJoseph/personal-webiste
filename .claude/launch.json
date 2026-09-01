@@ -1,0 +1,15 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "site",
+      "runtimeExecutable": "powershell.exe",
+      "runtimeArgs": [
+        "-NoProfile",
+        "-Command",
+        "$L=[System.Net.HttpListener]::new(); $L.Prefixes.Add('http://localhost:5173/'); $L.Start(); Write-Host 'listening on 5173'; while($L.IsListening){ $c=$L.GetContext(); $p=$c.Request.Url.LocalPath; if($p -eq '/' -or $p -eq ''){$p='/index.html'}; $f=Join-Path (Get-Location) $p.TrimStart('/'); if(Test-Path $f -PathType Leaf){ $ext=[IO.Path]::GetExtension($f).ToLower(); $ct=switch($ext){'.html'{'text/html'}'.css'{'text/css'}'.js'{'application/javascript'}'.svg'{'image/svg+xml'}'.jpg'{'image/jpeg'}'.jpeg'{'image/jpeg'}'.png'{'image/png'}default{'application/octet-stream'}}; $b=[IO.File]::ReadAllBytes($f); $c.Response.ContentType=$ct; $c.Response.ContentLength64=$b.Length; $c.Response.OutputStream.Write($b,0,$b.Length) } else { $c.Response.StatusCode=404 }; $c.Response.OutputStream.Close() }"
+      ],
+      "port": 5173
+    }
+  ]
+}
