@@ -842,28 +842,187 @@
   }
   .project__stage {
     aspect-ratio: 16 / 10;
-    display: grid; place-content: center; text-align: center;
-    padding: 24px;
-    background:
-      repeating-linear-gradient(
-        45deg,
-        rgba(255,255,255,0.02) 0 10px,
-        transparent 10px 22px
-      );
+    padding: 14px;
+    background: #0A343B;
   }
-  .project__stage-label {
+
+  /* Cove dashboard mockup (matches cove.html hero) */
+  .cove-dash {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    height: 100%;
+    min-height: 0;
+    background: #FDFAF3;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 8px 28px -12px rgba(6, 42, 48, 0.45);
+    text-align: left;
+  }
+  .cove-dash__sidebar {
+    padding: 10px 8px;
+    border-right: 1px solid rgba(10, 37, 64, 0.06);
+    background: #FDFAF3;
+  }
+  .cove-dash__tenant {
+    margin: 0 0 8px;
+    font-family: var(--f-mono);
+    font-size: 7px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(10, 37, 64, 0.42);
+    line-height: 1.3;
+  }
+  .cove-dash__nav {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .cove-dash__nav-item {
+    display: block;
+    padding: 4px 6px;
+    border-radius: 5px;
+    font-size: 8.5px;
+    font-weight: 500;
+    color: rgba(10, 37, 64, 0.72);
+    line-height: 1.2;
+  }
+  .cove-dash__nav-item--active {
+    background: #0A2540;
+    color: #FDFAF3;
+  }
+  .cove-dash__main {
+    padding: 10px 12px 8px;
+    min-width: 0;
+    overflow: hidden;
+  }
+  .cove-dash__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+  }
+  .cove-dash__date {
+    margin: 0;
+    font-family: var(--f-mono);
+    font-size: 7px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(10, 37, 64, 0.42);
+  }
+  .cove-dash__heading {
+    margin: 2px 0 0;
     font-family: var(--f-display);
     font-weight: 600;
-    color: #E4EEEB;
-    font-size: 18px;
-    margin: 0 0 4px;
-    letter-spacing: -0.01em;
+    font-size: 13px;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: #0A2540;
   }
-  .project__stage-hint {
+  .cove-dash__live {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
     font-family: var(--f-mono);
-    font-size: 12px;
-    color: #7C9599;
+    font-size: 7px;
+    color: rgba(10, 37, 64, 0.48);
+  }
+  .cove-dash__live-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: #0FA3A8;
+  }
+  .cove-dash__stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    margin-top: 8px;
+  }
+  .cove-dash__stat {
+    padding: 6px 4px;
+    border-radius: 6px;
+    background: rgba(245, 238, 223, 0.85);
+    text-align: center;
+  }
+  .cove-dash__stat-value {
     margin: 0;
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 1;
+    color: #0A2540;
+  }
+  .cove-dash__stat-label {
+    margin: 3px 0 0;
+    font-size: 7px;
+    line-height: 1.2;
+    color: rgba(10, 37, 64, 0.58);
+  }
+  .cove-dash__section-label {
+    margin: 8px 0 4px;
+    font-family: var(--f-mono);
+    font-size: 7px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(10, 37, 64, 0.42);
+  }
+  .cove-dash__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1px solid rgba(10, 37, 64, 0.06);
+  }
+  .cove-dash__row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(10, 37, 64, 0.06);
+    font-size: 8.5px;
+    line-height: 1.2;
+    min-width: 0;
+  }
+  .cove-dash__time {
+    flex: 0 0 28px;
+    font-family: var(--f-display);
+    font-weight: 600;
+    font-size: 9px;
+    color: #0A2540;
+  }
+  .cove-dash__tour {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: rgba(10, 37, 64, 0.78);
+  }
+  .cove-dash__badge {
+    flex-shrink: 0;
+    padding: 2px 5px;
+    border-radius: 999px;
+    font-family: var(--f-mono);
+    font-size: 6.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .cove-dash__badge--paid {
+    background: rgba(15, 163, 168, 0.12);
+    color: #0A7A7E;
+  }
+  .cove-dash__badge--fill {
+    background: rgba(227, 122, 85, 0.12);
+    color: #C45E3A;
+  }
+
+  @media (max-width: 480px) {
+    .cove-dash { grid-template-columns: 1fr; }
+    .cove-dash__sidebar { display: none; }
+    .cove-dash__stat-value { font-size: 10px; }
   }
   
 

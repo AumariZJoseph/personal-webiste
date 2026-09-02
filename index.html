@@ -387,16 +387,66 @@
 
         <article class="project">
 
-          <div class="project__visual" aria-hidden="true">
+          <div class="project__visual">
             <div class="project__frame">
               <div class="project__browser">
                 <span class="project__dot"></span><span class="project__dot"></span><span class="project__dot"></span>
-                <p class="project__url">book.demo.cove.com</p>
+                <p class="project__url">app.cove.co / coral-cove-sailing / bookings</p>
               </div>
-              <div class="project__stage">
-                <p class="project__stage-label">Screenshot placeholder</p>
-                <p class="project__stage-hint">Drop a Cove booking-page shot here</p>
-                
+              <div class="project__stage" role="img" aria-label="Cove owner dashboard showing today's bookings, revenue, and upcoming tours">
+                <div class="cove-dash">
+                  <aside class="cove-dash__sidebar">
+                    <p class="cove-dash__tenant">Coral Cove Sailing</p>
+                    <nav class="cove-dash__nav" aria-hidden="true">
+                      <span class="cove-dash__nav-item cove-dash__nav-item--active">Today</span>
+                      <span class="cove-dash__nav-item">Bookings</span>
+                      <span class="cove-dash__nav-item">Tours</span>
+                      <span class="cove-dash__nav-item">Availability</span>
+                      <span class="cove-dash__nav-item">Settings</span>
+                    </nav>
+                  </aside>
+                  <div class="cove-dash__main">
+                    <div class="cove-dash__header">
+                      <div>
+                        <p class="cove-dash__date">Wednesday, Sep 2</p>
+                        <p class="cove-dash__heading">Today · 3 tours running</p>
+                      </div>
+                      <span class="cove-dash__live"><span class="cove-dash__live-dot" aria-hidden="true"></span> Live</span>
+                    </div>
+                    <div class="cove-dash__stats">
+                      <div class="cove-dash__stat">
+                        <p class="cove-dash__stat-value">14</p>
+                        <p class="cove-dash__stat-label">Guests booked</p>
+                      </div>
+                      <div class="cove-dash__stat">
+                        <p class="cove-dash__stat-value">XCD 2,340</p>
+                        <p class="cove-dash__stat-label">Paid today</p>
+                      </div>
+                      <div class="cove-dash__stat">
+                        <p class="cove-dash__stat-value">4</p>
+                        <p class="cove-dash__stat-label">Seats left · 15:30</p>
+                      </div>
+                    </div>
+                    <p class="cove-dash__section-label">Upcoming</p>
+                    <ul class="cove-dash__list" aria-hidden="true">
+                      <li class="cove-dash__row">
+                        <span class="cove-dash__time">09:00</span>
+                        <span class="cove-dash__tour">Sunset Catamaran · Melanie B. +3</span>
+                        <span class="cove-dash__badge cove-dash__badge--paid">Paid</span>
+                      </li>
+                      <li class="cove-dash__row">
+                        <span class="cove-dash__time">12:30</span>
+                        <span class="cove-dash__tour">Snorkel Turtles · Rojas family +5</span>
+                        <span class="cove-dash__badge cove-dash__badge--paid">Paid</span>
+                      </li>
+                      <li class="cove-dash__row">
+                        <span class="cove-dash__time">15:30</span>
+                        <span class="cove-dash__tour">Sunset Catamaran · 6 seats left</span>
+                        <span class="cove-dash__badge cove-dash__badge--fill">Filling</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
