@@ -1,0 +1,992 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Cove — Booking software for Caribbean tour operators</title>
+<meta name="description" content="Cove is a booking platform for Caribbean tour operators. Take card payments through O-Pay — no US bank account, no EIN, no Delaware LLC required." />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sea:      '#0FA3A8',
+          seadark:  '#0A7A7E',
+          deep:     '#0A2540',
+          sand:     '#F5EEDF',
+          chalk:    '#FDFAF3',
+          shell:    '#EFE6D2',
+          coral:    '#E37A55',
+          ink:      '#0C1A24',
+          mist:     '#6B7A85',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+          sans:    ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        letterSpacing: {
+          tightest: '-0.04em',
+        },
+        boxShadow: {
+          card:  '0 1px 0 rgba(10,37,64,0.04), 0 20px 40px -24px rgba(10,37,64,0.20)',
+          soft:  '0 1px 0 rgba(10,37,64,0.04), 0 8px 24px -16px rgba(10,37,64,0.15)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #F5EEDF; color: #0A2540; }
+  .font-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+
+  /* Hand-drawn underline used to highlight load-bearing words. */
+  .u-line { position: relative; display: inline-block; white-space: nowrap; }
+  .u-line svg { position: absolute; left: 0; bottom: -0.12em; width: 100%; height: 0.35em; pointer-events: none; }
+  .u-line svg path { fill: none; stroke: #0FA3A8; stroke-width: 3; stroke-linecap: round; }
+  .u-line.thick svg path { stroke-width: 4; }
+
+  /* Section wave divider */
+  .wave {
+    height: 24px; width: 100%;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'><path d='M0 6 Q 10 0 20 6 T 40 6 T 60 6 T 80 6 T 100 6 T 120 6' fill='none' stroke='%230FA3A8' stroke-width='1.2' stroke-linecap='round'/></svg>");
+    background-repeat: repeat-x; background-size: 120px 12px; opacity: .5;
+  }
+
+  /* Small tick used in feature bullets */
+  .tick { color: #0FA3A8; }
+
+  /* WhatsApp-ish speech bubbles */
+  .bubble { max-width: 220px; padding: 8px 12px; border-radius: 12px; font-size: 13px; line-height: 1.35; box-shadow: 0 1px 2px rgba(0,0,0,.08); }
+  .bubble.in  { background: #FFFFFF; color: #0C1A24; border-bottom-left-radius: 4px; }
+  .bubble.out { background: #DCF7C5; color: #0C1A24; border-bottom-right-radius: 4px; }
+  .bubble .t  { display:block; font-size: 10px; color: #6B7A85; text-align: right; margin-top: 2px; }
+
+  /* Dashed inline strike for the "US bank required" line */
+  .strike-req { text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: #E37A55; }
+
+  /* Focus styles */
+  :focus-visible { outline: 2px solid #0FA3A8; outline-offset: 2px; border-radius: 6px; }
+
+  /* Simulator: interactive chip states */
+  .chip { border: 1px solid #E7DFC9; background: #FDFAF3; color: #0A2540; }
+  .chip[aria-pressed="true"], .chip.is-selected { background: #0A2540; color: #FDFAF3; border-color: #0A2540; }
+  .chip[disabled] { opacity: .35; cursor: not-allowed; text-decoration: line-through; }
+
+  /* Nav on scroll */
+  .nav-scrolled { background: rgba(245,238,223,.92); backdrop-filter: saturate(140%) blur(8px); border-bottom-color: rgba(10,37,64,0.08); }
+
+  /* Utility: hairline */
+  .hair { background: #E7DFC9; height: 1px; }
+
+  /* Prevent horizontal scroll on wide illustrations */
+  main, header, footer, section { overflow-x: clip; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .rise { opacity: 0; transform: translateY(12px); transition: opacity .8s ease, transform .8s ease; }
+    .rise.on { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+
+<body class="antialiased">
+
+<!-- ============ NAV ============ -->
+<header id="nav" class="fixed top-0 inset-x-0 z-40 border-b border-transparent transition-colors">
+  <div class="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16">
+    <a href="#top" class="flex items-center gap-2 group">
+      <span aria-hidden="true" class="relative inline-block w-7 h-7">
+        <span class="absolute inset-0 rounded-full bg-sea"></span>
+        <span class="absolute inset-[6px] rounded-full bg-sand"></span>
+        <span class="absolute inset-[11px] rounded-full bg-deep"></span>
+      </span>
+      <span class="font-display text-2xl font-500 tracking-tightest text-deep">Cove</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-8 text-[14.5px] text-deep/85">
+      <a href="#why" class="hover:text-deep">Why Cove</a>
+      <a href="#features" class="hover:text-deep">Features</a>
+      <a href="#demo" class="hover:text-deep">Live demo</a>
+      <a href="#how" class="hover:text-deep">How it works</a>
+    </nav>
+    <div class="flex items-center gap-2">
+      <a href="#cta" class="hidden sm:inline-flex items-center gap-2 rounded-full bg-deep text-chalk px-4 py-2 text-[14px] font-medium hover:bg-ink transition">
+        Book a demo
+        <i class="fa-solid fa-arrow-right text-[11px]"></i>
+      </a>
+      <button id="menu-btn" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" class="md:hidden w-10 h-10 grid place-items-center rounded-full border border-deep/15 text-deep">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" hidden class="md:hidden border-t border-deep/10 bg-sand">
+    <div class="px-5 py-4 flex flex-col gap-3 text-[15px]">
+      <a href="#why" class="py-2">Why Cove</a>
+      <a href="#features" class="py-2">Features</a>
+      <a href="#demo" class="py-2">Live demo</a>
+      <a href="#how" class="py-2">How it works</a>
+      <a href="#cta" class="mt-2 inline-flex justify-center rounded-full bg-deep text-chalk px-4 py-3 font-medium">Book a demo</a>
+    </div>
+  </div>
+</header>
+
+<main id="top" class="pt-16">
+
+<!-- ============ HERO ============ -->
+<section class="relative">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 pt-14 md:pt-20 pb-16 md:pb-24 grid md:grid-cols-12 gap-10 md:gap-14 items-start">
+    <div class="md:col-span-6">
+      <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold flex items-center gap-2">
+        <span class="inline-block w-6 h-px bg-seadark/60"></span>
+        For Caribbean tour operators
+      </p>
+      <h1 class="font-display font-500 text-deep leading-[0.98] tracking-tightest mt-5 text-[44px] sm:text-[56px] md:text-[68px] lg:text-[78px]">
+        The booking system that
+        doesn't ask if you have a
+        <span class="u-line thick">Delaware LLC.<svg viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M4 6 Q 60 -2 150 5 T 296 6"/></svg></span>
+      </h1>
+      <p class="mt-6 md:mt-7 text-[17px] md:text-[18.5px] leading-[1.55] text-deep/75 max-w-[560px]">
+        Cove is a booking platform for tour operators from
+        <span class="u-line">Nassau to Negril.<svg viewBox="0 0 200 10" preserveAspectRatio="none"><path d="M4 6 Q 40 1 100 5 T 196 6"/></svg></span>
+        Take card payments through <strong class="text-deep font-semibold">O-Pay</strong> — the region's own gateway — so you don't need a
+        <strong class="text-deep font-semibold">US bank account</strong>, an EIN, or a lawyer stateside. Add one link to your site. Get paid the same week.
+      </p>
+
+      <div class="mt-8 flex flex-wrap items-center gap-3">
+        <a href="#cta" class="inline-flex items-center gap-2 rounded-full bg-deep text-chalk px-6 py-3.5 text-[15px] font-medium hover:bg-ink transition">
+          Book a 20-min demo
+          <i class="fa-solid fa-arrow-right text-[12px]"></i>
+        </a>
+        <a href="#demo" class="inline-flex items-center gap-2 rounded-full border border-deep/20 text-deep px-6 py-3.5 text-[15px] font-medium hover:bg-shell transition">
+          Try the live demo
+          <i class="fa-solid fa-arrow-down text-[12px]"></i>
+        </a>
+      </div>
+
+      <ul class="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-[13.5px] text-deep/70">
+        <li><i class="fa-solid fa-check tick mr-2"></i>Settles in BBD · JMD · TTD · XCD · USD</li>
+        <li><i class="fa-solid fa-check tick mr-2"></i>WhatsApp reminders included</li>
+        <li><i class="fa-solid fa-check tick mr-2"></i>Live in 3–5 days</li>
+      </ul>
+    </div>
+
+    <!-- Hero mockup: mini owner dashboard -->
+    <div class="md:col-span-6 relative">
+      <div class="relative rounded-2xl bg-chalk shadow-card ring-1 ring-deep/10 overflow-hidden">
+        <!-- browser chrome -->
+        <div class="flex items-center gap-1.5 px-4 py-3 bg-shell/60 border-b border-deep/5">
+          <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+          <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+          <span class="ml-3 text-[11px] text-deep/50 truncate">app.cove.co / coral-cove-sailing / bookings</span>
+        </div>
+        <div class="grid grid-cols-12">
+          <!-- sidebar -->
+          <aside class="col-span-3 border-r border-deep/5 p-3 hidden sm:block">
+            <div class="text-[11px] uppercase tracking-widest text-deep/40 mb-2">Coral Cove Sailing</div>
+            <nav class="space-y-1 text-[12.5px] text-deep/80">
+              <div class="flex items-center gap-2 px-2 py-1.5 rounded bg-deep text-chalk"><i class="fa-solid fa-calendar-day text-[10px]"></i>Today</div>
+              <div class="flex items-center gap-2 px-2 py-1.5 rounded"><i class="fa-regular fa-calendar text-[10px]"></i>Bookings</div>
+              <div class="flex items-center gap-2 px-2 py-1.5 rounded"><i class="fa-solid fa-ship text-[10px]"></i>Tours</div>
+              <div class="flex items-center gap-2 px-2 py-1.5 rounded"><i class="fa-solid fa-sliders text-[10px]"></i>Availability</div>
+              <div class="flex items-center gap-2 px-2 py-1.5 rounded"><i class="fa-solid fa-gear text-[10px]"></i>Settings</div>
+            </nav>
+          </aside>
+          <!-- main -->
+          <div class="col-span-12 sm:col-span-9 p-4 md:p-5">
+            <div class="flex items-baseline justify-between">
+              <div>
+                <div class="text-[11px] uppercase tracking-widest text-deep/40">Wednesday, Sep 2</div>
+                <div class="font-display text-[22px] leading-tight text-deep">Today · 3 tours running</div>
+              </div>
+              <div class="hidden sm:flex items-center gap-2 text-[11px] text-deep/50"><span class="w-2 h-2 rounded-full bg-sea"></span> Live</div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-3 gap-2 text-center">
+              <div class="rounded-lg bg-sand/70 p-2.5">
+                <div class="font-display text-xl text-deep leading-none">14</div>
+                <div class="text-[10.5px] text-deep/60 mt-1">Guests booked</div>
+              </div>
+              <div class="rounded-lg bg-sand/70 p-2.5">
+                <div class="font-display text-xl text-deep leading-none">BBD 2,340</div>
+                <div class="text-[10.5px] text-deep/60 mt-1">Paid today</div>
+              </div>
+              <div class="rounded-lg bg-sand/70 p-2.5">
+                <div class="font-display text-xl text-deep leading-none">4</div>
+                <div class="text-[10.5px] text-deep/60 mt-1">Seats left · 15:30</div>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="text-[11px] uppercase tracking-widest text-deep/40 mb-2">Upcoming</div>
+              <ul class="text-[12.5px] divide-y divide-deep/5">
+                <li class="py-2 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="font-display text-deep text-[13px] w-14 shrink-0">09:00</span>
+                    <span class="truncate text-deep/80">Sunset Catamaran · Melanie B. +3</span>
+                  </div>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-sea/10 text-seadark">Paid</span>
+                </li>
+                <li class="py-2 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="font-display text-deep text-[13px] w-14 shrink-0">12:30</span>
+                    <span class="truncate text-deep/80">Snorkel Turtles · Rojas family +5</span>
+                  </div>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-sea/10 text-seadark">Paid</span>
+                </li>
+                <li class="py-2 flex items-center justify-between gap-3">
+                  <div class="flex items-center gap-3 min-w-0">
+                    <span class="font-display text-deep text-[13px] w-14 shrink-0">15:30</span>
+                    <span class="truncate text-deep/80">Sunset Catamaran · 6 seats left</span>
+                  </div>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-coral/10 text-coral">Filling</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating O-Pay receipt card -->
+      <div class="hidden md:block absolute -left-6 -bottom-10 w-[220px] rotate-[-4deg] rounded-xl bg-chalk shadow-card ring-1 ring-deep/10 p-3.5">
+        <div class="flex items-center justify-between text-[10px] uppercase tracking-widest text-deep/40">
+          <span>O-Pay · Settlement</span>
+          <span>Sep 2</span>
+        </div>
+        <div class="mt-2 font-display text-[22px] text-deep leading-none">+ BBD 2,340.00</div>
+        <div class="text-[11px] text-deep/60 mt-1">Landed in Republic Bank ••4421</div>
+        <div class="mt-3 h-px bg-deep/10"></div>
+        <div class="mt-2 text-[10.5px] text-deep/60">No US intermediary. No FX detour.</div>
+      </div>
+    </div>
+  </div>
+  <div class="wave"></div>
+</section>
+
+<!-- ============ THE PROBLEM ============ -->
+<section id="why" class="bg-chalk">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="max-w-2xl">
+      <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold">The problem</p>
+      <h2 class="font-display text-deep text-[34px] md:text-[46px] leading-[1.05] tracking-tightest mt-3">
+        Most Caribbean tours are still booked in
+        <span class="u-line">group chats.<svg viewBox="0 0 180 10" preserveAspectRatio="none"><path d="M4 6 Q 40 1 90 5 T 176 6"/></svg></span>
+      </h2>
+      <p class="text-[16px] md:text-[17px] text-deep/75 leading-[1.55] mt-4 max-w-xl">
+        The tools you've been offered were built for Colorado ski resorts and Nashville Airbnbs. They assume you have a Wells Fargo account. You don't.
+      </p>
+    </div>
+
+    <div class="mt-12 md:mt-14 grid md:grid-cols-2 gap-6 md:gap-8">
+      <!-- OLD WAY -->
+      <div class="rounded-2xl bg-sand/60 ring-1 ring-deep/8 p-6 md:p-8 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-[11px] uppercase tracking-[0.22em] text-coral font-semibold">The old way</p>
+          <span class="text-[11px] text-deep/40">A Tuesday, 11:47 pm</span>
+        </div>
+        <h3 class="font-display text-[24px] md:text-[28px] text-deep mt-2 leading-tight">A group chat, a spreadsheet, and a prayer.</h3>
+
+        <div class="relative mt-6 h-[320px]">
+          <!-- WhatsApp bubbles -->
+          <div class="absolute top-0 left-0 bubble in">
+            Hi! Do you have 4 spots for Sunday sunset sail? 🙏
+            <span class="t">10:12 pm</span>
+          </div>
+          <div class="absolute top-[80px] left-8 bubble out">
+            let me check the sheet, one min
+            <span class="t">10:41 pm ✓✓</span>
+          </div>
+          <div class="absolute top-[150px] left-0 bubble in">
+            we can pay cash on arrival right?
+            <span class="t">11:07 pm</span>
+          </div>
+          <div class="absolute top-[220px] left-14 bubble in">
+            actually can u do Friday instead
+            <span class="t">11:47 pm</span>
+          </div>
+
+          <!-- Napkin / sticky -->
+          <div class="absolute top-8 right-2 md:right-6 w-[190px] rotate-[6deg] bg-[#FFF6C7] shadow-soft p-3 text-[12.5px] leading-snug text-deep">
+            <div class="font-display text-[13px] uppercase tracking-widest text-deep/60 mb-1">Sun 09/06</div>
+            Melanie — 4 pax<br>
+            Rojas — 5 (2 kids)<br>
+            <span class="text-coral">?? Andre — 2 (Fri?)</span><br>
+            <span class="text-deep/70">deposit: none</span>
+          </div>
+
+          <!-- Rejected form -->
+          <div class="absolute bottom-0 right-0 w-[260px] rotate-[-2deg] bg-chalk shadow-soft ring-1 ring-deep/10 p-3.5">
+            <div class="text-[10px] uppercase tracking-widest text-deep/40 flex items-center gap-1"><i class="fa-solid fa-circle-exclamation text-coral"></i> Payment gateway signup</div>
+            <div class="mt-2 text-[12.5px] text-deep/80 leading-snug">
+              We require a <span class="strike-req">US bank account</span>,
+              a <span class="strike-req">US EIN</span>,
+              and a <span class="strike-req">US utility bill</span>.
+            </div>
+            <div class="mt-2 text-[11px] text-coral font-medium">Application declined.</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- COVE WAY -->
+      <div class="rounded-2xl bg-deep text-chalk p-6 md:p-8 relative overflow-hidden">
+        <div class="flex items-center justify-between">
+          <p class="text-[11px] uppercase tracking-[0.22em] text-sea font-semibold">With Cove</p>
+          <span class="text-[11px] text-chalk/50">Live · same Tuesday</span>
+        </div>
+        <h3 class="font-display text-[24px] md:text-[28px] mt-2 leading-tight">One page. One link. Money in your bank.</h3>
+
+        <!-- Mini dashboard mock -->
+        <div class="mt-6 rounded-xl bg-chalk text-deep p-4 md:p-5 ring-1 ring-chalk/10">
+          <div class="flex items-baseline justify-between">
+            <div class="font-display text-[16px]">This week</div>
+            <div class="text-[11px] text-deep/50">Coral Cove Sailing</div>
+          </div>
+          <div class="mt-3 grid grid-cols-7 gap-1.5">
+            <template id="bar"></template>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:30%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:60%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:45%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:80%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:70%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:95%"></span></div>
+            <div class="rounded-md bg-sand h-14 relative"><span class="absolute bottom-0 left-0 right-0 bg-sea rounded-md" style="height:88%"></span></div>
+          </div>
+          <div class="grid grid-cols-7 gap-1.5 mt-1 text-[10px] text-deep/40 text-center">
+            <span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span>
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-2">
+            <div class="rounded-lg bg-sand/70 p-2.5">
+              <div class="text-[10.5px] text-deep/60">Booked & paid</div>
+              <div class="font-display text-[18px] text-deep leading-none mt-1">62 guests</div>
+            </div>
+            <div class="rounded-lg bg-sand/70 p-2.5">
+              <div class="text-[10.5px] text-deep/60">Settled to Republic Bank</div>
+              <div class="font-display text-[18px] text-deep leading-none mt-1">BBD 8,940</div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="mt-6 space-y-2.5 text-[14px] text-chalk/85">
+          <li class="flex gap-3"><i class="fa-solid fa-check text-sea mt-1"></i>Booked and paid before they show up at the dock.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check text-sea mt-1"></i>Auto WhatsApp reminder 24 hours before departure.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check text-sea mt-1"></i>Owner sees seats-left in real time, on any phone.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check text-sea mt-1"></i>Refunds handled from a dashboard, not a group chat.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ BUILT FOR THE CARIBBEAN ============ -->
+<section class="bg-sand">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="grid md:grid-cols-12 gap-8 items-end">
+      <div class="md:col-span-7">
+        <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold">Why Cove wins</p>
+        <h2 class="font-display text-deep text-[34px] md:text-[50px] leading-[1.02] tracking-tightest mt-3">
+          Built for the
+          <span class="u-line thick">Caribbean.<svg viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M4 6 Q 60 -1 150 5 T 296 6"/></svg></span>
+          Not adapted from Colorado.
+        </h2>
+      </div>
+      <p class="md:col-span-5 text-[16px] text-deep/70 leading-[1.55]">
+        Every other platform will tell you they're global. Then the signup form asks for a nine-digit routing number. We're built for a region the incumbents forgot.
+      </p>
+    </div>
+
+    <div class="mt-12 md:mt-14 grid md:grid-cols-3 gap-4 md:gap-6">
+      <!-- Card 1 -->
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-7 md:p-8 flex flex-col">
+        <div class="w-11 h-11 rounded-xl bg-sea/12 grid place-items-center text-seadark text-[18px]">
+          <i class="fa-solid fa-building-columns"></i>
+        </div>
+        <div class="mt-6 font-display text-[13px] uppercase tracking-widest text-deep/50">01</div>
+        <h3 class="mt-2 font-display text-[24px] md:text-[26px] leading-[1.15] text-deep">
+          No US bank account. No EIN. No excuses.
+        </h3>
+        <p class="mt-3 text-[14.5px] text-deep/70 leading-[1.55]">
+          Money lands in your <strong class="text-deep font-semibold">local bank</strong>, in your local currency. Republic, RBC Caribbean, CIBC FirstCaribbean, NCB — whoever you already bank with.
+        </p>
+        <div class="mt-6 pt-5 border-t border-deep/8 text-[12.5px] text-deep/60 flex items-center gap-2">
+          <i class="fa-solid fa-flag text-sea"></i> BBD · JMD · TTD · XCD · USD supported
+        </div>
+      </article>
+
+      <!-- Card 2 -->
+      <article class="rounded-2xl bg-deep text-chalk p-7 md:p-8 flex flex-col relative overflow-hidden">
+        <div class="w-11 h-11 rounded-xl bg-sea/25 grid place-items-center text-sea text-[18px]">
+          <i class="fa-solid fa-credit-card"></i>
+        </div>
+        <div class="mt-6 font-display text-[13px] uppercase tracking-widest text-chalk/40">02</div>
+        <h3 class="mt-2 font-display text-[24px] md:text-[26px] leading-[1.15]">
+          Powered by <span class="text-sea">O-Pay</span>.
+        </h3>
+        <p class="mt-3 text-[14.5px] text-chalk/75 leading-[1.55]">
+          The Caribbean's own hosted checkout. Cards are captured and 3-D-Secured on O-Pay's page, then funds route straight to your account. We verify every webhook with HMAC-SHA256, so nothing gets marked paid that isn't.
+        </p>
+        <div class="mt-6 pt-5 border-t border-chalk/12 text-[12.5px] text-chalk/60 flex items-center gap-2">
+          <i class="fa-solid fa-lock text-sea"></i> PCI SAQ-A · we never touch card data
+        </div>
+      </article>
+
+      <!-- Card 3 -->
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-7 md:p-8 flex flex-col">
+        <div class="w-11 h-11 rounded-xl bg-coral/15 grid place-items-center text-coral text-[18px]">
+          <i class="fa-solid fa-sun"></i>
+        </div>
+        <div class="mt-6 font-display text-[13px] uppercase tracking-widest text-deep/50">03</div>
+        <h3 class="mt-2 font-display text-[24px] md:text-[26px] leading-[1.15] text-deep">
+          Built for <span class="u-line">island time.<svg viewBox="0 0 180 10" preserveAspectRatio="none"><path d="M4 6 Q 40 1 90 5 T 176 6"/></svg></span>
+        </h3>
+        <p class="mt-3 text-[14.5px] text-deep/70 leading-[1.55]">
+          Flexible operating windows, per-day availability overrides, WhatsApp reminders (the channel your customers actually read), and cancellation policies that reflect how tours actually run when the weather turns.
+        </p>
+        <div class="mt-6 pt-5 border-t border-deep/8 text-[12.5px] text-deep/60 flex items-center gap-2">
+          <i class="fa-brands fa-whatsapp text-[#25D366]"></i> WhatsApp reminders included, no add-on
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="wave"></div>
+</section>
+
+<!-- ============ INTERACTIVE SIMULATOR ============ -->
+<section id="demo" class="bg-chalk">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="grid md:grid-cols-12 gap-10 md:gap-14 items-start">
+      <div class="md:col-span-5 md:sticky md:top-24">
+        <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold">Live demo</p>
+        <h2 class="font-display text-deep text-[34px] md:text-[46px] leading-[1.03] tracking-tightest mt-3">
+          This is what your customers will see.
+        </h2>
+        <p class="mt-5 text-[16px] text-deep/70 leading-[1.6]">
+          Pick a date. Choose a time. Add a guest. Watch the total change.
+          This is a real Cove booking page — the same code that runs on
+          <span class="text-deep font-medium">book.your-tour.com</span> for our live operators.
+        </p>
+        <p class="mt-4 text-[14px] text-deep/55 leading-[1.6]">
+          The <em>Book now</em> button won't take your card. It'll offer you a demo call instead.
+        </p>
+
+        <ul class="mt-8 space-y-3 text-[14px] text-deep/80">
+          <li class="flex gap-3"><i class="fa-solid fa-check tick mt-1"></i>Branded to your business — logo, colors, custom domain.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check tick mt-1"></i>Adult / child pricing computes server-side.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check tick mt-1"></i>Real-time seats-remaining per slot.</li>
+          <li class="flex gap-3"><i class="fa-solid fa-check tick mt-1"></i>2-day booking lead time enforced.</li>
+        </ul>
+      </div>
+
+      <!-- The booking page itself -->
+      <div class="md:col-span-7">
+        <div class="rounded-2xl overflow-hidden ring-1 ring-deep/10 shadow-card bg-chalk">
+          <!-- fake browser bar -->
+          <div class="flex items-center gap-1.5 px-4 py-2.5 bg-shell/60 border-b border-deep/5">
+            <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+            <span class="w-2.5 h-2.5 rounded-full bg-deep/15"></span>
+            <span class="ml-3 text-[11px] text-deep/50 truncate flex items-center gap-1.5">
+              <i class="fa-solid fa-lock text-[9px]"></i>
+              book.coralcovesailing.com / sunset-catamaran
+            </span>
+          </div>
+
+          <!-- Tenant header -->
+          <header class="px-5 md:px-7 pt-6 pb-4 flex items-center justify-between border-b border-deep/5">
+            <div class="flex items-center gap-2.5">
+              <span aria-hidden="true" class="relative w-7 h-7 inline-block">
+                <span class="absolute inset-0 rounded-full bg-sea"></span>
+                <span class="absolute inset-[8px] rounded-full bg-chalk"></span>
+              </span>
+              <div class="leading-tight">
+                <div class="font-display text-[16px] text-deep">Coral Cove Sailing Co.</div>
+                <div class="text-[11px] text-deep/50">Bridgetown, Barbados · since 2014</div>
+              </div>
+            </div>
+            <a class="text-[12px] text-deep/60 hover:text-deep">Contact us →</a>
+          </header>
+
+          <!-- Tour visual -->
+          <div class="relative h-40 md:h-52" aria-hidden="true">
+            <svg viewBox="0 0 800 220" preserveAspectRatio="xMidYMid slice" class="w-full h-full">
+              <defs>
+                <linearGradient id="sky" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#F5C99B"/>
+                  <stop offset="1" stop-color="#E37A55"/>
+                </linearGradient>
+                <linearGradient id="sea" x1="0" x2="0" y1="0" y2="1">
+                  <stop offset="0" stop-color="#0FA3A8"/>
+                  <stop offset="1" stop-color="#0A2540"/>
+                </linearGradient>
+              </defs>
+              <rect width="800" height="140" fill="url(#sky)"/>
+              <circle cx="600" cy="90" r="34" fill="#FFF3D9" opacity=".85"/>
+              <rect y="140" width="800" height="80" fill="url(#sea)"/>
+              <!-- distant islands -->
+              <path d="M0 140 Q 90 118 200 140 Z" fill="#0A2540" opacity=".35"/>
+              <path d="M540 140 Q 660 116 800 140 Z" fill="#0A2540" opacity=".4"/>
+              <!-- catamaran -->
+              <g transform="translate(300,120)">
+                <path d="M0 30 L 120 30 L 108 46 L 12 46 Z" fill="#0A2540"/>
+                <path d="M10 30 L 60 -30 L 60 30 Z" fill="#FDFAF3"/>
+                <path d="M60 -28 L 108 30 L 60 30 Z" fill="#FDFAF3" opacity=".85"/>
+                <line x1="60" y1="-30" x2="60" y2="30" stroke="#0A2540" stroke-width="2"/>
+              </g>
+              <!-- horizon shimmer -->
+              <path d="M0 148 Q 200 156 400 148 T 800 148" fill="none" stroke="#FDFAF3" stroke-width="1" opacity=".4"/>
+            </svg>
+          </div>
+
+          <div class="p-5 md:p-7">
+            <div class="flex items-start justify-between gap-4">
+              <div>
+                <div class="text-[11px] uppercase tracking-[0.22em] text-seadark font-semibold">Shared tour</div>
+                <h3 class="font-display text-[24px] md:text-[30px] text-deep leading-tight mt-1">Sunset Catamaran & Snorkel</h3>
+                <div class="mt-2 text-[13px] text-deep/60 flex flex-wrap gap-x-4 gap-y-1">
+                  <span><i class="fa-regular fa-clock mr-1.5"></i>3 hours</span>
+                  <span><i class="fa-solid fa-users mr-1.5"></i>Up to 24 guests</span>
+                  <span><i class="fa-solid fa-location-dot mr-1.5"></i>Carlisle Bay marina</span>
+                </div>
+              </div>
+              <div class="text-right shrink-0">
+                <div class="text-[11px] text-deep/50 uppercase tracking-widest">From</div>
+                <div class="font-display text-[22px] text-deep leading-none mt-1"><span class="text-[13px] text-deep/60 font-sans">BBD</span> 180</div>
+                <div class="text-[11px] text-deep/50">per adult</div>
+              </div>
+            </div>
+
+            <p class="mt-4 text-[14px] text-deep/70 leading-[1.6]">
+              Sail out of Carlisle Bay for the golden hour. Snorkel with hawksbill turtles, then anchor for rum punch and grilled flying fish as the sun drops behind the leeward coast.
+            </p>
+
+            <!-- Date picker -->
+            <div class="mt-6">
+              <div class="flex items-baseline justify-between">
+                <label class="text-[12px] uppercase tracking-widest text-deep/50">Choose a date</label>
+                <span class="text-[11px] text-deep/40">Book at least 2 days ahead</span>
+              </div>
+              <div id="dates" role="radiogroup" aria-label="Available dates" class="mt-2 grid grid-cols-5 gap-1.5"></div>
+            </div>
+
+            <!-- Slots -->
+            <div class="mt-6">
+              <label class="text-[12px] uppercase tracking-widest text-deep/50">Choose a time</label>
+              <div id="slots" role="radiogroup" aria-label="Available times" class="mt-2 flex flex-wrap gap-2"></div>
+            </div>
+
+            <!-- Guest counters -->
+            <div class="mt-6 grid sm:grid-cols-2 gap-3">
+              <div class="rounded-xl bg-sand/60 ring-1 ring-deep/5 p-3.5 flex items-center justify-between">
+                <div>
+                  <div class="font-display text-[16px] text-deep leading-tight">Adults</div>
+                  <div class="text-[11.5px] text-deep/55">BBD 180 each · 12+</div>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <button data-cnt="adults" data-delta="-1" aria-label="Decrease adults" class="w-9 h-9 grid place-items-center rounded-full ring-1 ring-deep/15 text-deep hover:bg-shell"><i class="fa-solid fa-minus text-[12px]"></i></button>
+                  <span id="cnt-adults" class="w-6 text-center font-display text-[18px] text-deep">2</span>
+                  <button data-cnt="adults" data-delta="1" aria-label="Increase adults" class="w-9 h-9 grid place-items-center rounded-full bg-deep text-chalk hover:bg-ink"><i class="fa-solid fa-plus text-[12px]"></i></button>
+                </div>
+              </div>
+              <div class="rounded-xl bg-sand/60 ring-1 ring-deep/5 p-3.5 flex items-center justify-between">
+                <div>
+                  <div class="font-display text-[16px] text-deep leading-tight">Children</div>
+                  <div class="text-[11.5px] text-deep/55">BBD 90 each · under 12</div>
+                </div>
+                <div class="flex items-center gap-2.5">
+                  <button data-cnt="children" data-delta="-1" aria-label="Decrease children" class="w-9 h-9 grid place-items-center rounded-full ring-1 ring-deep/15 text-deep hover:bg-shell"><i class="fa-solid fa-minus text-[12px]"></i></button>
+                  <span id="cnt-children" class="w-6 text-center font-display text-[18px] text-deep">0</span>
+                  <button data-cnt="children" data-delta="1" aria-label="Increase children" class="w-9 h-9 grid place-items-center rounded-full bg-deep text-chalk hover:bg-ink"><i class="fa-solid fa-plus text-[12px]"></i></button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Summary + CTA -->
+            <div class="mt-6 rounded-xl bg-deep text-chalk p-4 md:p-5 flex items-center justify-between gap-4">
+              <div class="min-w-0">
+                <div class="text-[11px] uppercase tracking-widest text-chalk/50">Total</div>
+                <div class="font-display text-[26px] leading-none mt-1"><span class="text-[13px] text-chalk/60 font-sans">BBD</span> <span id="total">360</span>.00</div>
+                <div id="summary" class="text-[11.5px] text-chalk/60 mt-1 truncate">2 adults · 0 children · Sun 09/06 · 15:30</div>
+              </div>
+              <button id="book-now" class="shrink-0 inline-flex items-center gap-2 rounded-full bg-sea text-deep px-5 py-3 text-[14.5px] font-semibold hover:bg-[#12BEC4] transition">
+                Book now
+                <i class="fa-solid fa-arrow-right text-[11px]"></i>
+              </button>
+            </div>
+
+            <p class="mt-4 text-[11.5px] text-deep/50 leading-relaxed">
+              Payment is captured on <strong class="text-deep/80">O-Pay</strong>'s hosted checkout — Cove never sees your card. Free reschedule up to 24 hours before departure.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ KEY FEATURES ============ -->
+<section id="features" class="bg-sand">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="grid md:grid-cols-12 gap-8 items-end">
+      <div class="md:col-span-7">
+        <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold">The system</p>
+        <h2 class="font-display text-deep text-[34px] md:text-[46px] leading-[1.03] tracking-tightest mt-3">
+          Four features. That's the whole product.
+        </h2>
+      </div>
+      <p class="md:col-span-5 text-[15.5px] text-deep/70 leading-[1.55]">
+          We don't sell a "platform" with 200 modules you'll never open. We do the four things that determine whether a tour operator gets paid on time.
+      </p>
+    </div>
+
+    <div class="mt-12 md:mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-6 flex flex-col">
+        <div class="w-10 h-10 rounded-lg bg-sea/12 grid place-items-center text-seadark"><i class="fa-solid fa-window-maximize"></i></div>
+        <h3 class="mt-5 font-display text-[20px] text-deep leading-tight">Branded booking page</h3>
+        <p class="mt-2 text-[14px] text-deep/70 leading-[1.55]">Your logo, your colors, your custom domain. No "powered by" clutter. Zero JavaScript to paste into your site — just a link.</p>
+        <div class="mt-auto pt-5 text-[12px] text-deep/50">book.your-business.com</div>
+      </article>
+
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-6 flex flex-col">
+        <div class="w-10 h-10 rounded-lg bg-sea/12 grid place-items-center text-seadark"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3 class="mt-5 font-display text-[20px] text-deep leading-tight">Secure O-Pay checkout</h3>
+        <p class="mt-2 text-[14px] text-deep/70 leading-[1.55]">Card capture happens on O-Pay's hosted page. HMAC-SHA256 webhooks confirm every payment. Refunds fire back automatically.</p>
+        <div class="mt-auto pt-5 text-[12px] text-deep/50">PCI SAQ-A · 3-D Secure</div>
+      </article>
+
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-6 flex flex-col">
+        <div class="w-10 h-10 rounded-lg bg-sea/12 grid place-items-center text-seadark"><i class="fa-brands fa-whatsapp"></i></div>
+        <h3 class="mt-5 font-display text-[20px] text-deep leading-tight">Auto reminders</h3>
+        <p class="mt-2 text-[14px] text-deep/70 leading-[1.55]">WhatsApp and email, 24 hours before departure. Sent from a cron job that retries on failure — you never chase a guest again.</p>
+        <div class="mt-auto pt-5 text-[12px] text-deep/50">Twilio · SendGrid · Resend</div>
+      </article>
+
+      <article class="rounded-2xl bg-chalk ring-1 ring-deep/8 p-6 flex flex-col">
+        <div class="w-10 h-10 rounded-lg bg-sea/12 grid place-items-center text-seadark"><i class="fa-solid fa-tags"></i></div>
+        <h3 class="mt-5 font-display text-[20px] text-deep leading-tight">Smart pricing</h3>
+        <p class="mt-2 text-[14px] text-deep/70 leading-[1.55]">Shared or private tours, adult/child pricing, per-slot capacity, per-day availability overrides. Priced server-side so it can't be forged.</p>
+        <div class="mt-auto pt-5 text-[12px] text-deep/50">Shared · Private · Age-based</div>
+      </article>
+    </div>
+  </div>
+  <div class="wave"></div>
+</section>
+
+<!-- ============ HOW IT WORKS ============ -->
+<section id="how" class="bg-chalk">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="max-w-2xl">
+      <p class="text-[12px] uppercase tracking-[0.22em] text-seadark font-semibold">How it works</p>
+      <h2 class="font-display text-deep text-[34px] md:text-[46px] leading-[1.03] tracking-tightest mt-3">
+        Live in a week. Not a quarter.
+      </h2>
+    </div>
+
+    <ol class="mt-12 md:mt-14 grid md:grid-cols-3 gap-6 relative">
+      <li class="relative rounded-2xl bg-sand/60 ring-1 ring-deep/8 p-7 md:p-8">
+        <div class="flex items-start justify-between">
+          <div class="font-display text-[46px] leading-none text-sea">1</div>
+          <i class="fa-solid fa-hand-holding-heart text-deep/25 text-[22px]"></i>
+        </div>
+        <h3 class="mt-4 font-display text-[22px] leading-tight text-deep">We set up your tours.</h3>
+        <p class="mt-2 text-[14.5px] text-deep/70 leading-[1.55]">Send us a link to your current site, a screenshot of your prices, or a WhatsApp voice note. We migrate your schedule, pricing, and cancellation policy in one working day.</p>
+        <div class="mt-5 text-[12.5px] text-deep/55 flex items-center gap-2"><i class="fa-regular fa-clock text-sea"></i> Day 1</div>
+      </li>
+      <li class="relative rounded-2xl bg-sand/60 ring-1 ring-deep/8 p-7 md:p-8">
+        <div class="flex items-start justify-between">
+          <div class="font-display text-[46px] leading-none text-sea">2</div>
+          <i class="fa-solid fa-link text-deep/25 text-[22px]"></i>
+        </div>
+        <h3 class="mt-4 font-display text-[22px] leading-tight text-deep">Add one link to your site.</h3>
+        <p class="mt-2 text-[14.5px] text-deep/70 leading-[1.55]">A single anchor tag. No plugin, no iframe, no JavaScript to install. Point <span class="font-mono text-[13px]">Book&nbsp;now</span> at <span class="font-mono text-[13px]">book.your-business.com</span> and you're live.</p>
+        <div class="mt-5 text-[12.5px] text-deep/55 flex items-center gap-2"><i class="fa-regular fa-clock text-sea"></i> Day 2–3</div>
+      </li>
+      <li class="relative rounded-2xl bg-deep text-chalk p-7 md:p-8">
+        <div class="flex items-start justify-between">
+          <div class="font-display text-[46px] leading-none text-sea">3</div>
+          <i class="fa-solid fa-piggy-bank text-chalk/30 text-[22px]"></i>
+        </div>
+        <h3 class="mt-4 font-display text-[22px] leading-tight">Get paid the same week.</h3>
+        <p class="mt-2 text-[14.5px] text-chalk/75 leading-[1.55]">O-Pay settles to your local bank in your local currency. No US intermediary, no wire, no 5–7 business-day FX detour.</p>
+        <div class="mt-5 text-[12.5px] text-chalk/60 flex items-center gap-2"><i class="fa-solid fa-arrow-right text-sea"></i> Day 5–7</div>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<!-- ============ FINAL CTA ============ -->
+<section id="cta" class="bg-sand">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-20 md:py-28">
+    <div class="rounded-3xl bg-deep text-chalk relative overflow-hidden p-8 md:p-14">
+      <!-- background wave -->
+      <svg aria-hidden="true" class="absolute inset-0 w-full h-full opacity-15" viewBox="0 0 800 400" preserveAspectRatio="none">
+        <path d="M0 260 Q 200 200 400 260 T 800 260 L 800 400 L 0 400 Z" fill="#0FA3A8"/>
+        <path d="M0 300 Q 200 250 400 300 T 800 300 L 800 400 L 0 400 Z" fill="#0FA3A8" opacity=".6"/>
+      </svg>
+
+      <div class="relative grid md:grid-cols-12 gap-8 items-end">
+        <div class="md:col-span-8">
+          <p class="text-[12px] uppercase tracking-[0.22em] text-sea font-semibold">Ready when you are</p>
+          <h2 class="font-display text-[38px] md:text-[56px] leading-[1.02] tracking-tightest mt-3 max-w-[16ch]">
+            Trade the group chat for a
+            <span class="u-line thick">real system.<svg viewBox="0 0 300 10" preserveAspectRatio="none"><path d="M4 6 Q 60 -1 150 5 T 296 6"/></svg></span>
+          </h2>
+          <p class="mt-5 text-[16px] text-chalk/75 max-w-xl leading-[1.55]">
+            A 20-minute call. We look at your current setup, quote a switch date, and if it's not the right fit we'll say so. No sales team, no drip campaign.
+          </p>
+        </div>
+        <div class="md:col-span-4 md:justify-self-end w-full">
+          <form class="rounded-2xl bg-chalk text-deep p-5 md:p-6 shadow-card space-y-3" onsubmit="event.preventDefault(); openModal();">
+            <label class="block text-[11.5px] uppercase tracking-widest text-deep/50">Your best email or WhatsApp</label>
+            <input required type="text" placeholder="you@yourtour.com or +1 246 ..." class="w-full rounded-xl bg-sand/70 ring-1 ring-deep/10 px-4 py-3 text-[15px] placeholder:text-deep/40 focus:ring-sea focus:outline-none"/>
+            <label class="block text-[11.5px] uppercase tracking-widest text-deep/50 pt-1">Business</label>
+            <input type="text" placeholder="Coral Cove Sailing, Bridgetown" class="w-full rounded-xl bg-sand/70 ring-1 ring-deep/10 px-4 py-3 text-[15px] placeholder:text-deep/40 focus:ring-sea focus:outline-none"/>
+            <button type="submit" class="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-deep text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-ink transition">
+              Request a demo call
+              <i class="fa-solid fa-arrow-right text-[12px]"></i>
+            </button>
+            <p class="text-[11.5px] text-deep/50 pt-1">We reply within one working day. Usually less.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer id="contact" class="bg-sand border-t border-deep/8">
+  <div class="max-w-7xl mx-auto px-5 md:px-8 py-14">
+    <div class="grid md:grid-cols-12 gap-10">
+      <div class="md:col-span-5">
+        <div class="flex items-center gap-2">
+          <span aria-hidden="true" class="relative inline-block w-7 h-7">
+            <span class="absolute inset-0 rounded-full bg-sea"></span>
+            <span class="absolute inset-[6px] rounded-full bg-sand"></span>
+            <span class="absolute inset-[11px] rounded-full bg-deep"></span>
+          </span>
+          <span class="font-display text-2xl text-deep">Cove</span>
+        </div>
+        <p class="mt-4 text-[14px] text-deep/65 leading-[1.6] max-w-sm">
+          Booking software built for Caribbean tour operators, by a Caribbean team. Bridgetown · Kingston · Port of Spain.
+        </p>
+        <div class="mt-5 flex items-center gap-3 text-deep/70">
+          <a href="mailto:hello@cove.co" class="w-9 h-9 grid place-items-center rounded-full ring-1 ring-deep/15 hover:bg-shell"><i class="fa-solid fa-envelope"></i></a>
+          <a href="#" class="w-9 h-9 grid place-items-center rounded-full ring-1 ring-deep/15 hover:bg-shell"><i class="fa-brands fa-whatsapp"></i></a>
+          <a href="#" class="w-9 h-9 grid place-items-center rounded-full ring-1 ring-deep/15 hover:bg-shell"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="md:col-span-7 grid grid-cols-2 sm:grid-cols-3 gap-6 text-[14px]">
+        <div>
+          <div class="text-[11px] uppercase tracking-widest text-deep/45 mb-3">Product</div>
+          <ul class="space-y-2 text-deep/75">
+            <li><a href="#why" class="hover:text-deep">Why Cove</a></li>
+            <li><a href="#features" class="hover:text-deep">Features</a></li>
+            <li><a href="#demo" class="hover:text-deep">Live demo</a></li>
+            <li><a href="#how" class="hover:text-deep">How it works</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-widest text-deep/45 mb-3">Company</div>
+          <ul class="space-y-2 text-deep/75">
+            <li><a href="#cta" class="hover:text-deep">Book a demo</a></li>
+            <li><a href="mailto:hello@cove.co" class="hover:text-deep">hello@cove.co</a></li>
+            <li><a href="#" class="hover:text-deep">Cancellation policy</a></li>
+            <li><a href="#" class="hover:text-deep">Privacy</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="text-[11px] uppercase tracking-widest text-deep/45 mb-3">Region</div>
+          <ul class="space-y-2 text-deep/75">
+            <li>Barbados · BBD</li>
+            <li>Jamaica · JMD</li>
+            <li>Trinidad · TTD</li>
+            <li>OECS · XCD</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="hair mt-12"></div>
+    <div class="mt-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 text-[12.5px] text-deep/55">
+      <span>© 2026 Cove Booking Inc. Built in the Caribbean, for the Caribbean.</span>
+      <span>Payments powered by <strong class="text-deep/75">O-Pay</strong>.</span>
+    </div>
+  </div>
+</footer>
+</main>
+
+<!-- ============ MODAL ============ -->
+<div id="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden class="fixed inset-0 z-50">
+  <div id="modal-scrim" class="absolute inset-0 bg-deep/60"></div>
+  <div class="relative min-h-full grid place-items-center p-4">
+    <div class="relative w-full max-w-md rounded-2xl bg-chalk shadow-card ring-1 ring-deep/10 p-7 md:p-8">
+      <button id="modal-close" aria-label="Close" class="absolute top-3 right-3 w-9 h-9 grid place-items-center rounded-full text-deep/60 hover:bg-shell"><i class="fa-solid fa-xmark"></i></button>
+      <div class="w-12 h-12 rounded-full bg-sea/15 grid place-items-center text-seadark text-[20px]">
+        <i class="fa-solid fa-ship"></i>
+      </div>
+      <h3 id="modal-title" class="mt-5 font-display text-[26px] leading-tight text-deep">Ready to go live?</h3>
+      <p class="mt-3 text-[15px] text-deep/70 leading-[1.55]">
+        You just took your first booking on Cove — even if this one was pretend. Let's take a real one next.
+        Schedule a 20-minute demo and we'll have your booking page live by the end of the week.
+      </p>
+      <div class="mt-6 flex flex-col sm:flex-row gap-2.5">
+        <a href="#cta" id="modal-cta" class="flex-1 inline-flex items-center justify-center gap-2 rounded-full bg-deep text-chalk px-5 py-3 text-[15px] font-medium hover:bg-ink">Schedule my demo</a>
+        <button id="modal-dismiss" class="inline-flex items-center justify-center rounded-full ring-1 ring-deep/15 px-5 py-3 text-[14.5px] text-deep hover:bg-shell">Keep exploring</button>
+      </div>
+      <p class="mt-4 text-[11.5px] text-deep/45 leading-relaxed">
+        No card was charged. Cove doesn't process demo bookings — that's on purpose.
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- ============ SCRIPTS ============ -->
+<script>
+  // ---------- Nav ----------
+  const nav = document.getElementById('nav');
+  const onScroll = () => nav.classList.toggle('nav-scrolled', window.scrollY > 8);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  const menuBtn = document.getElementById('menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => {
+    const open = !menu.hasAttribute('hidden');
+    if (open) { menu.setAttribute('hidden',''); menuBtn.setAttribute('aria-expanded','false'); }
+    else      { menu.removeAttribute('hidden');  menuBtn.setAttribute('aria-expanded','true'); }
+  });
+  menu.addEventListener('click', (e) => { if (e.target.tagName === 'A') { menu.setAttribute('hidden',''); menuBtn.setAttribute('aria-expanded','false'); }});
+
+  // ---------- Simulator ----------
+  const DAYS_OF_WEEK = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  const state = {
+    dateIdx: 2,
+    slot: '15:30',
+    adults: 2,
+    children: 0,
+    prices: { adult: 180, child: 90 },
+  };
+
+  // Build 5 dates starting 2 days from a fixed date (deterministic; avoids "today" drift)
+  const baseDate = new Date(2026, 8, 4); // Sep 4 2026 (Fri)
+  const dates = Array.from({length: 5}, (_, i) => {
+    const d = new Date(baseDate); d.setDate(baseDate.getDate() + i);
+    return d;
+  });
+
+  const slots = [
+    { time: '09:00', seats: 12 },
+    { time: '12:30', seats: 6  },
+    { time: '15:30', seats: 4  },
+  ];
+
+  const datesEl = document.getElementById('dates');
+  datesEl.innerHTML = dates.map((d, i) => `
+    <button type="button" role="radio"
+      aria-pressed="${i === state.dateIdx}"
+      data-idx="${i}"
+      class="chip rounded-xl px-2 py-3 text-center transition">
+      <div class="text-[10.5px] uppercase tracking-widest opacity-60">${DAYS_OF_WEEK[d.getDay()]}</div>
+      <div class="font-display text-[20px] leading-none mt-1">${String(d.getDate()).padStart(2,'0')}</div>
+      <div class="text-[10.5px] opacity-60 mt-1">${d.toLocaleString('en-US',{month:'short'})}</div>
+    </button>
+  `).join('');
+
+  const slotsEl = document.getElementById('slots');
+  const renderSlots = () => {
+    slotsEl.innerHTML = slots.map(s => {
+      const sold = s.seats === 0;
+      return `
+        <button type="button" role="radio"
+          aria-pressed="${s.time === state.slot}"
+          data-time="${s.time}"
+          ${sold ? 'disabled' : ''}
+          class="chip rounded-full px-4 py-2 text-[13.5px] transition">
+          ${s.time}
+          <span class="ml-2 text-[11px] opacity-60">${sold ? 'sold out' : s.seats + ' left'}</span>
+        </button>`;
+    }).join('');
+  };
+  renderSlots();
+
+  const totalEl   = document.getElementById('total');
+  const summaryEl = document.getElementById('summary');
+  const cntAdults = document.getElementById('cnt-adults');
+  const cntChild  = document.getElementById('cnt-children');
+
+  function fmtDate(d) {
+    return `${DAYS_OF_WEEK[d.getDay()]} ${String(d.getMonth()+1).padStart(2,'0')}/${String(d.getDate()).padStart(2,'0')}`;
+  }
+  function render() {
+    const total = state.adults * state.prices.adult + state.children * state.prices.child;
+    totalEl.textContent = total.toLocaleString('en-US');
+    cntAdults.textContent = state.adults;
+    cntChild.textContent  = state.children;
+    summaryEl.textContent =
+      `${state.adults} adult${state.adults===1?'':'s'} · ${state.children} child${state.children===1?'':'ren'} · ${fmtDate(dates[state.dateIdx])} · ${state.slot}`;
+  }
+  render();
+
+  datesEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-idx]'); if (!btn) return;
+    state.dateIdx = Number(btn.dataset.idx);
+    [...datesEl.children].forEach(el => el.setAttribute('aria-pressed', el === btn ? 'true' : 'false'));
+    render();
+  });
+
+  slotsEl.addEventListener('click', (e) => {
+    const btn = e.target.closest('[data-time]'); if (!btn || btn.hasAttribute('disabled')) return;
+    state.slot = btn.dataset.time;
+    [...slotsEl.children].forEach(el => el.setAttribute('aria-pressed', el === btn ? 'true' : 'false'));
+    render();
+  });
+
+  document.querySelectorAll('[data-cnt]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const key = btn.dataset.cnt;
+      const delta = Number(btn.dataset.delta);
+      const min = key === 'adults' ? 1 : 0;
+      state[key] = Math.max(min, Math.min(20, state[key] + delta));
+      render();
+    });
+  });
+
+  // ---------- Modal ----------
+  const modal = document.getElementById('modal');
+  let lastFocus = null;
+  function openModal() {
+    lastFocus = document.activeElement;
+    modal.removeAttribute('hidden');
+    document.documentElement.style.overflow = 'hidden';
+    document.getElementById('modal-dismiss').focus();
+  }
+  function closeModal() {
+    modal.setAttribute('hidden','');
+    document.documentElement.style.overflow = '';
+    if (lastFocus) lastFocus.focus();
+  }
+  window.openModal = openModal;
+  document.getElementById('book-now').addEventListener('click', openModal);
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal-scrim').addEventListener('click', closeModal);
+  document.getElementById('modal-dismiss').addEventListener('click', closeModal);
+  document.getElementById('modal-cta').addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && !modal.hasAttribute('hidden')) closeModal(); });
+
+  // ---------- Reveal on scroll ----------
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); io.unobserve(e.target); } });
+    }, { threshold: 0.12 });
+    document.querySelectorAll('section > .max-w-7xl').forEach(el => { el.classList.add('rise'); io.observe(el); });
+  }
+</script>
+
+</body>
+</html>
