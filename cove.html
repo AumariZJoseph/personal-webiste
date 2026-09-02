@@ -12,6 +12,8 @@
 
 <script src="https://cdn.tailwindcss.com"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+<script src="https://assets.calendly.com/assets/external/widget.js" type="text/javascript" async></script>
 
 <script>
   tailwind.config = {
@@ -746,34 +748,47 @@
 
         <!-- Two option cards -->
         <div class="w-full grid sm:grid-cols-2 gap-4 max-w-2xl">
-          <!-- Option 1: Book a demo -->
-          <form class="rounded-2xl bg-chalk text-deep p-5 md:p-6 shadow-card space-y-3 text-left" onsubmit="event.preventDefault(); openModal();">
-            <p class="text-[11px] uppercase tracking-[0.22em] text-deep/50 font-semibold">Book a demo</p>
 
-            <label class="block text-[11.5px] uppercase tracking-widest text-deep/50 pt-1">Your best email or WhatsApp</label>
-            <input required type="text" placeholder="you@yourtour.com or +1 246 ..." class="w-full rounded-xl bg-sand/70 ring-1 ring-deep/10 px-4 py-3 text-[15px] placeholder:text-deep/40 focus:ring-sea focus:outline-none"/>
-            <label class="block text-[11.5px] uppercase tracking-widest text-deep/50 pt-1">Business</label>
-            <input type="text" placeholder="Coral Cove Sailing, Bridgetown" class="w-full rounded-xl bg-sand/70 ring-1 ring-deep/10 px-4 py-3 text-[15px] placeholder:text-deep/40 focus:ring-sea focus:outline-none"/>
-            <button type="submit" class="w-full mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-deep text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-ink transition">
-              Request a demo call
-              <i class="fa-solid fa-arrow-right text-[12px]"></i>
-            </button>
-            <p class="text-[11.5px] text-deep/50 pt-1">We reply within one working day. Usually less.</p>
-          </form>
+          <!-- Option 1: Book a demo -->
+          <div class="rounded-2xl bg-chalk text-deep p-6 md:p-8 shadow-card flex flex-col gap-5 text-left">
+            <div class="flex flex-col gap-3">
+              <p class="text-[11px] uppercase tracking-[0.22em] text-deep/40 font-semibold">Book a demo</p>
+              <div class="w-10 h-10 rounded-xl bg-sand flex items-center justify-center">
+                <i class="fa-regular fa-calendar text-deep text-[17px]"></i>
+              </div>
+              <p class="font-display text-[20px] leading-snug tracking-tight">20 minutes. No fluff.</p>
+              <p class="text-[14px] text-deep/60 leading-relaxed">We look at your current setup, quote a switch date, and tell you straight if it's not the right fit.</p>
+            </div>
+            <div class="mt-auto flex flex-col gap-2">
+              <button onclick="Calendly.initPopupWidget({url: 'https://calendly.com/aumarijoseph/30min'}); return false;"
+                      class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-deep text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-ink transition">
+                Request a demo call
+                <i class="fa-solid fa-arrow-right text-[12px]"></i>
+              </button>
+              <p class="text-[11.5px] text-deep/40 text-center">Pick any open slot — usually within 48 hrs.</p>
+            </div>
+          </div>
 
           <!-- Option 2: Fast track -->
-          <div class="rounded-2xl bg-sea/20 ring-1 ring-sea/30 text-chalk p-5 md:p-6 flex flex-col gap-3 text-left justify-between">
+          <div class="rounded-2xl bg-sea/20 ring-1 ring-sea/30 text-chalk p-6 md:p-8 flex flex-col gap-5 text-left">
             <div class="flex flex-col gap-3">
               <p class="text-[11px] uppercase tracking-[0.22em] text-sea font-semibold">Fast track</p>
-              <p class="text-[15px] text-chalk/80 leading-snug">Skip the call — send one email and we'll get your trial account ready.</p>
-              <p class="text-[13px] text-chalk/50 leading-snug">No form, no waiting. Just hit send.</p>
+              <div class="w-10 h-10 rounded-xl bg-chalk/10 flex items-center justify-center">
+                <i class="fa-solid fa-bolt text-sea text-[17px]"></i>
+              </div>
+              <p class="font-display text-[20px] leading-snug tracking-tight">Skip the call entirely.</p>
+              <p class="text-[14px] text-chalk/60 leading-relaxed">Send one email and we'll get your trial account ready. No form, no waiting, no sales cycle.</p>
             </div>
-            <a href="mailto:aumarijoseph@gmail.com?subject=New Cove Signup - [Insert Business Name]&body=Hi Aumari,%0D%0A%0D%0AI played with the demo and I'm ready to get started. Please send me the onboarding details and payment link.%0D%0A%0D%0AMy business name is: [insert]%0D%0AMy preferred slug is: [insert] (e.g., book._____ .cove.com)%0D%0A%0D%0ALooking forward to it!"
-               class="mt-2 inline-flex items-center justify-center gap-2 rounded-full bg-sea text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-seadark transition">
-              Start My Trial Now
-              <i class="fa-solid fa-bolt text-[12px]"></i>
-            </a>
+            <div class="mt-auto flex flex-col gap-2">
+              <a href="mailto:aumarijoseph@gmail.com?subject=New%20Cove%20Signup%20-%20%5BInsert%20Business%20Name%5D&body=Hi%20Aumari%2C%0D%0A%0D%0AI%20played%20with%20the%20demo%20and%20I%27m%20ready%20to%20get%20started.%20Please%20send%20me%20the%20onboarding%20details%20and%20payment%20link.%0D%0A%0D%0AMy%20business%20name%20is%3A%20%5Binsert%5D%0D%0AMy%20preferred%20slug%20is%3A%20%5Binsert%5D%20(e.g.%2C%20book._____.cove.com)%0D%0A%0D%0ALooking%20forward%20to%20it!"
+                 class="w-full inline-flex items-center justify-center gap-2 rounded-full bg-sea text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-seadark transition">
+                Start My Trial Now
+                <i class="fa-solid fa-bolt text-[12px]"></i>
+              </a>
+              <p class="text-[11.5px] text-chalk/40 text-center">Opens your email client, pre-filled.</p>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
