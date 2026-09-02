@@ -742,8 +742,10 @@
             A 20-minute call. We look at your current setup, quote a switch date, and if it's not the right fit we'll say so. No sales team, no drip campaign.
           </p>
         </div>
-        <div class="md:col-span-4 md:justify-self-end w-full">
+        <div class="md:col-span-4 md:justify-self-end w-full flex flex-col gap-4">
+          <!-- Option 1: Book a demo -->
           <form class="rounded-2xl bg-chalk text-deep p-5 md:p-6 shadow-card space-y-3" onsubmit="event.preventDefault(); openModal();">
+            <p class="text-[11px] uppercase tracking-[0.22em] text-deep/50 font-semibold">Book a demo</p>
             <label class="block text-[11.5px] uppercase tracking-widest text-deep/50">Your best email or WhatsApp</label>
             <input required type="text" placeholder="you@yourtour.com or +1 246 ..." class="w-full rounded-xl bg-sand/70 ring-1 ring-deep/10 px-4 py-3 text-[15px] placeholder:text-deep/40 focus:ring-sea focus:outline-none"/>
             <label class="block text-[11.5px] uppercase tracking-widest text-deep/50 pt-1">Business</label>
@@ -754,6 +756,17 @@
             </button>
             <p class="text-[11.5px] text-deep/50 pt-1">We reply within one working day. Usually less.</p>
           </form>
+
+          <!-- Option 2: Fast track -->
+          <div class="rounded-2xl bg-sea/20 ring-1 ring-sea/30 text-chalk p-5 md:p-6 flex flex-col gap-3">
+            <p class="text-[11px] uppercase tracking-[0.22em] text-sea font-semibold">Fast track</p>
+            <p class="text-[14px] text-chalk/80 leading-snug">Skip the call — send one email and we'll get your trial account ready.</p>
+            <a href="mailto:aumarijoseph@gmail.com?subject=Starting%20with%20Cove&body=I%20would%20like%20to%20begin%20with%20Cove%20today."
+               class="inline-flex items-center justify-center gap-2 rounded-full bg-sea text-chalk px-5 py-3.5 text-[15px] font-medium hover:bg-seadark transition">
+              Start My Trial Now
+              <i class="fa-solid fa-bolt text-[12px]"></i>
+            </a>
+          </div>
         </div>
       </div>
     </div>
