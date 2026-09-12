@@ -87,6 +87,14 @@
   /* Nav on scroll */
   .nav-scrolled { background: rgba(245,238,223,.92); backdrop-filter: saturate(140%) blur(8px); border-bottom-color: rgba(10,37,64,0.08); }
 
+  /* Keep the transparent logo intact; its empty canvas can safely overflow. */
+  .brand-logo { position: relative; display: block; flex: 0 0 auto; overflow: visible; }
+  .brand-logo img { position: absolute; top: 50%; left: 50%; max-width: none; transform: translate(-50%, -50%); }
+  .brand-logo--nav { width: 148px; height: 40px; }
+  .brand-logo--nav img { width: 230px; }
+  .brand-logo--footer { width: 190px; height: 48px; }
+  .brand-logo--footer img { width: 296px; }
+
   /* Utility: hairline */
   .hair { background: #E7DFC9; height: 1px; }
 
@@ -105,13 +113,10 @@
 <!-- ============ NAV ============ -->
 <header id="nav" class="fixed top-0 inset-x-0 z-40 border-b border-transparent transition-colors">
   <div class="max-w-7xl mx-auto flex items-center justify-between px-5 md:px-8 h-16">
-    <a href="#top" class="flex items-center gap-2 group">
-      <span aria-hidden="true" class="relative inline-block w-7 h-7">
-        <span class="absolute inset-0 rounded-full bg-sea"></span>
-        <span class="absolute inset-[6px] rounded-full bg-sand"></span>
-        <span class="absolute inset-[11px] rounded-full bg-deep"></span>
+    <a href="#top" aria-label="SwiftCove home" class="group">
+      <span class="brand-logo brand-logo--nav">
+        <img src="SwiftCove_Logo2.png" alt="SwiftCove">
       </span>
-      <span class="font-display text-2xl font-500 tracking-tightest text-deep">SwiftCove</span>
     </a>
     <nav class="hidden md:flex items-center gap-8 text-[14.5px] text-deep/85">
       <a href="#why" class="hover:text-deep">Why SwiftCove</a>
@@ -842,13 +847,10 @@
   <div class="max-w-7xl mx-auto px-5 md:px-8 py-14">
     <div class="grid md:grid-cols-12 gap-10">
       <div class="md:col-span-5">
-        <div class="flex items-center gap-2">
-          <span aria-hidden="true" class="relative inline-block w-7 h-7">
-            <span class="absolute inset-0 rounded-full bg-sea"></span>
-            <span class="absolute inset-[6px] rounded-full bg-sand"></span>
-            <span class="absolute inset-[11px] rounded-full bg-deep"></span>
+        <div>
+          <span class="brand-logo brand-logo--footer">
+            <img src="SwiftCove_Logo2.png" alt="SwiftCove">
           </span>
-          <span class="font-display text-2xl text-deep">SwiftCove</span>
         </div>
         <p class="mt-4 text-[14px] text-deep/65 leading-[1.6] max-w-sm">
           Booking software built for Caribbean tour operators, by a Caribbean team. Bridgetown · Kingston · Port of Spain.
