@@ -51,6 +51,55 @@
     <!-- ============ HERO ============ -->
     <section class="hero" id="top">
       <div class="hero__grid-lines" aria-hidden="true"></div>
+      <div class="hero__globe" aria-hidden="true">
+        <svg class="hero__globe-art" viewBox="0 0 1000 1000" fill="none" focusable="false">
+          <defs>
+            <radialGradient id="globe-ocean" cx="34%" cy="28%" r="74%">
+              <stop stop-color="#1C5B61" stop-opacity=".72" />
+              <stop offset=".66" stop-color="#0B3940" stop-opacity=".48" />
+              <stop offset="1" stop-color="#041F24" stop-opacity=".08" />
+            </radialGradient>
+            <linearGradient id="globe-land" x1="220" y1="180" x2="780" y2="810" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#8BD3C5" stop-opacity=".44" />
+              <stop offset="1" stop-color="#23B8A5" stop-opacity=".22" />
+            </linearGradient>
+            <clipPath id="globe-clip"><circle cx="500" cy="500" r="406" /></clipPath>
+            <filter id="globe-glow" x="-40%" y="-40%" width="180%" height="180%">
+              <feGaussianBlur stdDeviation="18" />
+            </filter>
+          </defs>
+
+          <circle cx="500" cy="500" r="425" fill="#14B8A6" fill-opacity=".12" filter="url(#globe-glow)" />
+          <circle cx="500" cy="500" r="406" fill="url(#globe-ocean)" stroke="#7DDACB" stroke-opacity=".36" stroke-width="2" />
+          <g clip-path="url(#globe-clip)">
+            <g stroke="#9BE2D4" stroke-opacity=".19" stroke-width="1.5">
+              <ellipse cx="500" cy="500" rx="110" ry="406" />
+              <ellipse cx="500" cy="500" rx="255" ry="406" />
+              <path d="M94 500H906" />
+              <path d="M125 336C314 400 686 400 875 336" />
+              <path d="M125 664C314 600 686 600 875 664" />
+              <path d="M218 206C380 281 620 281 782 206" />
+              <path d="M218 794C380 719 620 719 782 794" />
+            </g>
+
+            <g fill="url(#globe-land)" stroke="#9BE2D4" stroke-opacity=".45" stroke-width="2">
+              <path d="M232 225C264 188 318 173 354 190L383 226 376 261 409 281 401 316 425 342 405 375 413 408 384 435 359 423 342 451 310 443 293 413 262 396 257 360 232 337 239 304 219 274Z" />
+              <path d="M391 437L420 443 433 463 421 482 446 497 451 527 472 551 463 590 483 622 477 660 498 700 480 769 451 802 432 766 434 724 412 694 419 650 396 620 403 580 380 551 389 514 373 483Z" />
+              <path d="M504 264L538 245 570 254 585 282 619 286 639 314 631 343 657 359 642 385 606 378 588 398 560 386 540 357 513 339Z" />
+              <path d="M621 400L675 383 725 405 742 445 731 475 754 519 741 556 756 601 731 653 703 702 669 741 645 715 651 670 630 628 638 580 614 540 625 498 604 461Z" />
+              <path d="M748 295L788 284 821 309 809 338 831 354 804 374 765 362 752 337Z" />
+            </g>
+
+            <g fill="#C4FFF3" fill-opacity=".9">
+              <ellipse cx="423" cy="428" rx="8" ry="3.5" transform="rotate(-18 423 428)" />
+              <ellipse cx="440" cy="436" rx="6" ry="3" transform="rotate(-18 440 436)" />
+              <ellipse cx="454" cy="443" rx="4" ry="2" transform="rotate(-18 454 443)" />
+            </g>
+            <circle cx="442" cy="437" r="10" fill="#14B8A6" fill-opacity=".25" stroke="#B8FFF2" stroke-width="2" />
+            <circle cx="442" cy="437" r="3.5" fill="#DFFEF7" />
+          </g>
+        </svg>
+      </div>
 
       <div class="hero__inner">
 

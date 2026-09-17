@@ -277,7 +277,8 @@
   
   .hero__grid-lines {
     position: absolute; inset: 0;
-    z-index: -1;
+    z-index: 1;
+    pointer-events: none;
     background-image:
       linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
       linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
@@ -285,11 +286,36 @@
     mask-image: radial-gradient(ellipse at 60% 40%, black 40%, transparent 85%);
     -webkit-mask-image: radial-gradient(ellipse at 60% 40%, black 40%, transparent 85%);
   }
+
+  /* One transform-only background layer; it never competes with the hero copy. */
+  .hero__globe {
+    position: absolute;
+    z-index: 0;
+    width: min(68vw, 780px);
+    aspect-ratio: 1;
+    top: 50%;
+    left: 61%;
+    opacity: .72;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+  }
+  .hero__globe-art {
+    display: block;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transform: translate(var(--globe-x, 0%), var(--globe-y, 0%)) scale(var(--globe-scale, 1));
+    will-change: transform;
+  }
   
   .hero__inner {
     width: 100%;
     max-width: 1180px;
     margin: 0 auto;
+    position: relative;
+    z-index: 2;
     display: grid;
     grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr);
     gap: clamp(32px, 6vw, 80px);
@@ -1208,6 +1234,17 @@
   @media (max-width: 760px) {
     .nav__mobile { display: block; }
     .nav__mobile[hidden] { display: none; }
+
+    /* Static, Caribbean-focused composition on smaller screens. */
+    .hero__globe {
+      width: 500px;
+      top: 34%;
+      left: 53%;
+      opacity: .48;
+    }
+    .hero__globe-art {
+      transform: translate(23%, 25%) scale(2.45);
+    }
   }
   
   @media (max-width: 640px) {
@@ -1227,4 +1264,8 @@
     .status__since { margin-left: 0; width: 100%; padding-left: 18px; }
   
     .section__header { margin-bottom: 40px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__globe-art { transform: translate(23%, 25%) scale(2.15); }
   }

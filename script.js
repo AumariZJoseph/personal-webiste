@@ -8,6 +8,61 @@
   setNavState();
   window.addEventListener('scroll', setNavState, { passive: true });
 
+  // ---- Hero globe: transform-only, scroll-linked zoom on larger screens ----
+  const hero = document.querySelector('.hero');
+  const globe = document.querySelector('.hero__globe-art');
+  const desktopViewport = window.matchMedia('(min-width: 761px)');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (hero && globe) {
+    let globeVisible = true;
+    let globeFrame = null;
+
+    const clamp = (value) => Math.min(1, Math.max(0, value));
+    const smoothstep = (value) => {
+      const t = clamp(value);
+      return t * t * (3 - 2 * t);
+    };
+    const stage = (progress, start, end, from, to) => {
+      return from + (to - from) * smoothstep((progress - start) / (end - start));
+    };
+    const canAnimateGlobe = () => desktopViewport.matches && !reducedMotion.matches;
+
+    const updateGlobe = () => {
+      globeFrame = null;
+      if (!canAnimateGlobe()) return;
+
+      const bounds = hero.getBoundingClientRect();
+      const zoomDistance = Math.min(bounds.height * .42, 320);
+      const progress = clamp(-bounds.top / Math.max(zoomDistance, 1));
+      const scale = progress < .36
+        ? stage(progress, 0, .36, 1, 1.36)
+        : progress < .72
+          ? stage(progress, .36, .72, 1.36, 2.08)
+          : stage(progress, .72, 1, 2.08, 2.7);
+      const drift = smoothstep(progress);
+
+      globe.style.setProperty('--globe-scale', scale.toFixed(3));
+      globe.style.setProperty('--globe-x', `${(23 * drift).toFixed(2)}%`);
+      globe.style.setProperty('--globe-y', `${(25 * drift).toFixed(2)}%`);
+    };
+
+    const requestGlobeUpdate = () => {
+      if (globeVisible && !globeFrame) globeFrame = requestAnimationFrame(updateGlobe);
+    };
+    const globeObserver = new IntersectionObserver(([entry]) => {
+      globeVisible = entry.isIntersecting;
+      if (globeVisible) requestGlobeUpdate();
+    }, { threshold: 0 });
+
+    globeObserver.observe(hero);
+    requestGlobeUpdate();
+    window.addEventListener('scroll', requestGlobeUpdate, { passive: true });
+    window.addEventListener('resize', requestGlobeUpdate, { passive: true });
+    desktopViewport.addEventListener('change', requestGlobeUpdate);
+    reducedMotion.addEventListener('change', requestGlobeUpdate);
+  }
+
   // ---- Mobile menu ----
   const burger = document.getElementById('burger');
   const menu = document.getElementById('mobile-menu');
