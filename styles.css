@@ -309,6 +309,37 @@
     transform: translate(var(--globe-x, 0%), var(--globe-y, 0%)) scale(var(--globe-scale, 1));
     will-change: transform;
   }
+  .hero__globe-caribbean {
+    opacity: var(--caribbean-detail, 0);
+  }
+  .hero__globe-world-grid,
+  .hero__globe-world-land {
+    opacity: var(--world-detail, 1);
+  }
+  .hero__globe-caribbean__islands {
+    fill: #72D8C8;
+    fill-opacity: .72;
+    stroke: #D2FFF7;
+    stroke-opacity: .92;
+    stroke-width: 1.5;
+  }
+  .hero__globe-caribbean__leaders {
+    stroke: #BEFFF3;
+    stroke-opacity: .68;
+    stroke-width: 1.2;
+  }
+  .hero__globe-caribbean__labels {
+    fill: #E5FFFA;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .02em;
+    paint-order: stroke;
+    stroke: #062A30;
+    stroke-opacity: .9;
+    stroke-width: 3.5px;
+    stroke-linejoin: round;
+  }
   
   .hero__inner {
     width: 100%;
@@ -1243,8 +1274,11 @@
       opacity: .48;
     }
     .hero__globe-art {
+      --caribbean-detail: 1;
+      --world-detail: .35;
       transform: translate(23%, 25%) scale(2.45);
     }
+    .hero__globe-caribbean__labels { display: none; }
   }
   
   @media (max-width: 640px) {
@@ -1267,5 +1301,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .hero__globe-art { transform: translate(23%, 25%) scale(2.15); }
+    .hero__globe-art {
+      --caribbean-detail: 1;
+      --world-detail: .35;
+      transform: translate(23%, 25%) scale(2.15);
+    }
   }

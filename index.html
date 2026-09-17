@@ -72,7 +72,7 @@
           <circle cx="500" cy="500" r="425" fill="#14B8A6" fill-opacity=".12" filter="url(#globe-glow)" />
           <circle cx="500" cy="500" r="406" fill="url(#globe-ocean)" stroke="#7DDACB" stroke-opacity=".36" stroke-width="2" />
           <g clip-path="url(#globe-clip)">
-            <g stroke="#9BE2D4" stroke-opacity=".19" stroke-width="1.5">
+            <g class="hero__globe-world-grid" stroke="#9BE2D4" stroke-opacity=".19" stroke-width="1.5">
               <ellipse cx="500" cy="500" rx="110" ry="406" />
               <ellipse cx="500" cy="500" rx="255" ry="406" />
               <path d="M94 500H906" />
@@ -82,7 +82,7 @@
               <path d="M218 794C380 719 620 719 782 794" />
             </g>
 
-            <g fill="url(#globe-land)" stroke="#9BE2D4" stroke-opacity=".45" stroke-width="2">
+            <g class="hero__globe-world-land" fill="url(#globe-land)" stroke="#9BE2D4" stroke-opacity=".45" stroke-width="2">
               <path d="M232 225C264 188 318 173 354 190L383 226 376 261 409 281 401 316 425 342 405 375 413 408 384 435 359 423 342 451 310 443 293 413 262 396 257 360 232 337 239 304 219 274Z" />
               <path d="M391 437L420 443 433 463 421 482 446 497 451 527 472 551 463 590 483 622 477 660 498 700 480 769 451 802 432 766 434 724 412 694 419 650 396 620 403 580 380 551 389 514 373 483Z" />
               <path d="M504 264L538 245 570 254 585 282 619 286 639 314 631 343 657 359 642 385 606 378 588 398 560 386 540 357 513 339Z" />
@@ -97,6 +97,49 @@
             </g>
             <circle cx="442" cy="437" r="10" fill="#14B8A6" fill-opacity=".25" stroke="#B8FFF2" stroke-width="2" />
             <circle cx="442" cy="437" r="3.5" fill="#DFFEF7" />
+
+            <g class="hero__globe-caribbean">
+              <g class="hero__globe-caribbean__islands">
+                <path d="M312 374C330 362 357 356 387 360L405 370 391 380 363 383 341 390 319 386Z" />
+                <path d="M397 394L426 390 448 399 441 409 412 411 397 405Z" />
+                <path d="M366 419L387 416 400 421 390 427 369 426Z" />
+                <path d="M454 402L472 399 485 405 477 412 458 411Z" />
+                <path d="M480 415L487 412 492 417 487 423 481 421Z" />
+                <path d="M488 429L495 426 500 432 495 438 489 435Z" />
+                <path d="M496 444L503 441 508 447 503 454 497 450Z" />
+                <path d="M503 460L510 457 515 464 510 471 504 467Z" />
+                <path d="M516 474L523 471 529 477 523 484 517 481Z" />
+                <path d="M497 482L505 478 511 485 506 492 499 489Z" />
+                <path d="M499 504L516 500 528 509 522 520 505 518Z" />
+                <path d="M482 520L500 516 512 525 503 536 488 533Z" />
+              </g>
+              <g class="hero__globe-caribbean__leaders">
+                <path d="M358 373L342 350" />
+                <path d="M424 400L426 379" />
+                <path d="M382 422L356 435" />
+                <path d="M468 406L486 391" />
+                <path d="M486 418L511 415" />
+                <path d="M496 432L519 431" />
+                <path d="M504 447L531 447" />
+                <path d="M511 464L540 466" />
+                <path d="M522 478L553 483" />
+                <path d="M505 486L531 496" />
+                <path d="M514 510L542 516" />
+              </g>
+              <g class="hero__globe-caribbean__labels">
+                <text x="312" y="347">Cuba</text>
+                <text x="401" y="376">Hispaniola</text>
+                <text x="322" y="440">Jamaica</text>
+                <text x="488" y="389">Puerto Rico</text>
+                <text x="514" y="417">Antigua</text>
+                <text x="522" y="434">Dominica</text>
+                <text x="534" y="450">Martinique</text>
+                <text x="544" y="470">Saint Lucia</text>
+                <text x="556" y="486">Barbados</text>
+                <text x="534" y="499">Grenada</text>
+                <text x="544" y="520">Trinidad</text>
+              </g>
+            </g>
           </g>
         </svg>
       </div>

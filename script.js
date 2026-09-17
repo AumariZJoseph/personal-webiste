@@ -30,21 +30,31 @@
 
     const updateGlobe = () => {
       globeFrame = null;
-      if (!canAnimateGlobe()) return;
+      if (!canAnimateGlobe()) {
+        globe.style.removeProperty('--globe-scale');
+        globe.style.removeProperty('--globe-x');
+        globe.style.removeProperty('--globe-y');
+        globe.style.removeProperty('--caribbean-detail');
+        globe.style.removeProperty('--world-detail');
+        return;
+      }
 
       const bounds = hero.getBoundingClientRect();
       const zoomDistance = Math.min(bounds.height * .42, 320);
       const progress = clamp(-bounds.top / Math.max(zoomDistance, 1));
       const scale = progress < .36
-        ? stage(progress, 0, .36, 1, 1.36)
+        ? stage(progress, 0, .36, 1, 1.48)
         : progress < .72
-          ? stage(progress, .36, .72, 1.36, 2.08)
-          : stage(progress, .72, 1, 2.08, 2.7);
+          ? stage(progress, .36, .72, 1.48, 2.35)
+          : stage(progress, .72, 1, 2.35, 3.2);
       const drift = smoothstep(progress);
+      const caribbeanDetail = smoothstep((progress - .58) / .42);
 
       globe.style.setProperty('--globe-scale', scale.toFixed(3));
       globe.style.setProperty('--globe-x', `${(23 * drift).toFixed(2)}%`);
       globe.style.setProperty('--globe-y', `${(25 * drift).toFixed(2)}%`);
+      globe.style.setProperty('--caribbean-detail', caribbeanDetail.toFixed(3));
+      globe.style.setProperty('--world-detail', (1 - (.65 * caribbeanDetail)).toFixed(3));
     };
 
     const requestGlobeUpdate = () => {
