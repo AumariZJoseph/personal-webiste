@@ -272,6 +272,10 @@
   .hero {
     position: relative;
     min-height: 100svh;
+  }
+  .hero__stage {
+    position: relative;
+    min-height: 100svh;
     background:
       radial-gradient(1200px 500px at 100% -10%, rgba(20, 184, 166, 0.10), transparent 60%),
       radial-gradient(900px 500px at -10% 110%, rgba(232, 175, 79, 0.06), transparent 60%),
@@ -281,6 +285,15 @@
     isolation: isolate;
     padding: calc(var(--nav-h) + 40px) clamp(20px, 4vw, 40px) 64px;
     display: flex; align-items: center;
+  }
+
+  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
+    .hero { min-height: 185svh; }
+    .hero__stage {
+      position: sticky;
+      top: 0;
+      height: 100svh;
+    }
   }
   
   .hero__grid-lines {
@@ -331,6 +344,14 @@
     stroke-opacity: .92;
     stroke-width: 1.5;
   }
+  .hero__globe-caribbean__major { fill: #8AE0D1; }
+  .hero__globe-caribbean__saint-lucia { fill: #C4FFF3; }
+  .hero__globe-caribbean__contours {
+    stroke: #B9FFF2;
+    stroke-opacity: .28;
+    stroke-width: 1.2;
+    stroke-dasharray: 3 6;
+  }
   .hero__globe-caribbean__leaders {
     stroke: #BEFFF3;
     stroke-opacity: .68;
@@ -347,6 +368,14 @@
     stroke-opacity: .9;
     stroke-width: 3.5px;
     stroke-linejoin: round;
+  }
+  .hero__globe-caribbean__sea-label {
+    fill: #B9FFF2;
+    fill-opacity: .5;
+    font-family: var(--f-mono);
+    font-size: 8px;
+    font-weight: 500;
+    letter-spacing: .18em;
   }
   
   .hero__inner {
@@ -1332,7 +1361,7 @@
   @media (max-width: 640px) {
     body { font-size: 16px; }
   
-    .hero { padding-top: calc(var(--nav-h) + 24px); padding-bottom: 48px; }
+    .hero__stage { padding-top: calc(var(--nav-h) + 24px); padding-bottom: 48px; }
     .hero__title { margin-bottom: 20px; }
     .hero__sub { margin-bottom: 28px; }
     .hero__cta-row { margin-bottom: 32px; }

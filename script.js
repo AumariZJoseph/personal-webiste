@@ -8,13 +8,14 @@
   setNavState();
   window.addEventListener('scroll', setNavState, { passive: true });
 
-  // ---- Hero globe: transform-only, scroll-linked zoom on larger screens ----
+  // ---- Hero globe: sticky, transform-only scroll sequence on larger screens ----
   const hero = document.querySelector('.hero');
+  const heroStage = document.querySelector('.hero__stage');
   const globe = document.querySelector('.hero__globe-art');
   const desktopViewport = window.matchMedia('(min-width: 761px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (hero && globe) {
+  if (hero && heroStage && globe) {
     let globeVisible = true;
     let globeFrame = null;
 
@@ -40,15 +41,15 @@
       }
 
       const bounds = hero.getBoundingClientRect();
-      const zoomDistance = Math.min(bounds.height * .42, 320);
-      const progress = clamp(-bounds.top / Math.max(zoomDistance, 1));
-      const scale = progress < .36
-        ? stage(progress, 0, .36, 1, 1.48)
-        : progress < .72
-          ? stage(progress, .36, .72, 1.48, 2.35)
-          : stage(progress, .72, 1, 2.35, 3.2);
+      const scrollRange = Math.max(hero.offsetHeight - window.innerHeight, 1);
+      const progress = clamp(-bounds.top / scrollRange);
+      const scale = progress < .24
+        ? stage(progress, 0, .24, 1, 1.32)
+        : progress < .62
+          ? stage(progress, .24, .62, 1.32, 2.18)
+          : stage(progress, .62, 1, 2.18, 3.7);
       const drift = smoothstep(progress);
-      const caribbeanDetail = smoothstep((progress - .58) / .42);
+      const caribbeanDetail = smoothstep((progress - .48) / .52);
 
       globe.style.setProperty('--globe-scale', scale.toFixed(3));
       globe.style.setProperty('--globe-x', `${(23 * drift).toFixed(2)}%`);

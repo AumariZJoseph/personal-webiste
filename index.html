@@ -102,6 +102,7 @@
 
     <!-- ============ HERO ============ -->
     <section class="hero" id="top">
+      <div class="hero__stage">
       <div class="hero__grid-lines" aria-hidden="true"></div>
       <div class="hero__globe" aria-hidden="true">
         <svg class="hero__globe-art" viewBox="0 0 1000 1000" fill="none" focusable="false">
@@ -151,46 +152,57 @@
             <circle cx="442" cy="437" r="3.5" fill="#DFFEF7" />
 
             <g class="hero__globe-caribbean">
+              <g class="hero__globe-caribbean__contours" fill="none">
+                <path d="M269 360C330 331 411 333 471 361" />
+                <path d="M279 394C345 367 425 371 491 401" />
+                <path d="M294 438C359 415 434 423 499 449" />
+                <path d="M326 481C388 462 460 468 525 497" />
+              </g>
               <g class="hero__globe-caribbean__islands">
-                <path d="M312 374C330 362 357 356 387 360L405 370 391 380 363 383 341 390 319 386Z" />
-                <path d="M397 394L426 390 448 399 441 409 412 411 397 405Z" />
-                <path d="M366 419L387 416 400 421 390 427 369 426Z" />
-                <path d="M454 402L472 399 485 405 477 412 458 411Z" />
-                <path d="M480 415L487 412 492 417 487 423 481 421Z" />
-                <path d="M488 429L495 426 500 432 495 438 489 435Z" />
-                <path d="M496 444L503 441 508 447 503 454 497 450Z" />
-                <path d="M503 460L510 457 515 464 510 471 504 467Z" />
-                <path d="M516 474L523 471 529 477 523 484 517 481Z" />
-                <path d="M497 482L505 478 511 485 506 492 499 489Z" />
-                <path d="M499 504L516 500 528 509 522 520 505 518Z" />
-                <path d="M482 520L500 516 512 525 503 536 488 533Z" />
+                <path class="hero__globe-caribbean__major" d="M286 371C303 364 320 354 343 351C367 348 391 353 408 361L422 369 411 376 390 378 373 385 350 385 334 392 315 389 301 383 287 380 280 376Z" />
+                <path class="hero__globe-caribbean__major" d="M396 397C407 390 425 388 440 391L455 398 453 405 440 409 425 408 414 413 401 409 393 403Z" />
+                <path class="hero__globe-caribbean__major" d="M357 426C366 419 382 417 396 420L407 425 400 430 384 432 371 431 360 430Z" />
+                <path class="hero__globe-caribbean__major" d="M461 403C471 398 485 398 494 403L501 408 497 414 482 415 470 412 460 409Z" />
+                <path d="M484 416L490 412 497 415 498 420 492 423 486 421Z" />
+                <path d="M493 427L500 423 505 428 504 434 498 437 494 433Z" />
+                <path d="M500 440L506 437 512 442 512 449 507 453 502 450Z" />
+                <path d="M507 454L514 451 520 457 519 465 513 470 508 466Z" />
+                <path class="hero__globe-caribbean__saint-lucia" d="M514 469L521 465 527 472 526 480 521 486 516 482 513 476Z" />
+                <path d="M521 484L528 480 534 486 533 493 527 497 522 493Z" />
+                <path d="M511 495L519 491 526 498 525 506 518 511 512 506Z" />
+                <path d="M548 481L555 477 561 482 561 490 555 495 549 491Z" />
+                <path class="hero__globe-caribbean__major" d="M497 519L511 514 526 517 534 526 530 535 516 539 504 534 496 527Z" />
+                <path d="M536 511L542 507 547 511 546 517 540 520 536 516Z" />
               </g>
               <g class="hero__globe-caribbean__leaders">
-                <path d="M358 373L342 350" />
-                <path d="M424 400L426 379" />
-                <path d="M382 422L356 435" />
-                <path d="M468 406L486 391" />
-                <path d="M486 418L511 415" />
-                <path d="M496 432L519 431" />
-                <path d="M504 447L531 447" />
-                <path d="M511 464L540 466" />
-                <path d="M522 478L553 483" />
-                <path d="M505 486L531 496" />
-                <path d="M514 510L542 516" />
+                <path d="M353 370L327 342" />
+                <path d="M427 400L432 375" />
+                <path d="M383 425L354 440" />
+                <path d="M481 406L505 389" />
+                <path d="M491 418L522 414" />
+                <path d="M500 430L529 427" />
+                <path d="M507 445L538 444" />
+                <path d="M514 459L545 459" />
+                <path d="M520 476L558 473" />
+                <path d="M555 486L580 486" />
+                <path d="M518 502L548 507" />
+                <path d="M516 529L551 534" />
               </g>
               <g class="hero__globe-caribbean__labels">
-                <text x="312" y="347">Cuba</text>
-                <text x="401" y="376">Hispaniola</text>
-                <text x="322" y="440">Jamaica</text>
-                <text x="488" y="389">Puerto Rico</text>
-                <text x="514" y="417">Antigua</text>
-                <text x="522" y="434">Dominica</text>
-                <text x="534" y="450">Martinique</text>
-                <text x="544" y="470">Saint Lucia</text>
-                <text x="556" y="486">Barbados</text>
-                <text x="534" y="499">Grenada</text>
-                <text x="544" y="520">Trinidad</text>
+                <text x="294" y="338">Cuba</text>
+                <text x="407" y="373">Hispaniola</text>
+                <text x="320" y="445">Jamaica</text>
+                <text x="507" y="387">Puerto Rico</text>
+                <text x="526" y="416">Antigua</text>
+                <text x="533" y="429">Guadeloupe</text>
+                <text x="542" y="447">Dominica</text>
+                <text x="549" y="462">Martinique</text>
+                <text x="563" y="477">Saint Lucia</text>
+                <text x="584" y="490">Barbados</text>
+                <text x="552" y="510">Grenada</text>
+                <text x="555" y="538">Trinidad &amp; Tobago</text>
               </g>
+              <text class="hero__globe-caribbean__sea-label" x="365" y="472">CARIBBEAN SEA</text>
             </g>
           </g>
         </svg>
@@ -272,6 +284,7 @@
           </p>
         </div>
 
+      </div>
       </div>
     </section>
 
