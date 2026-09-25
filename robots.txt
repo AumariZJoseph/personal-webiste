@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://aumarizjoseph.github.io/personal-webiste/sitemap.xml
