@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>SwiftCove Help Center</title>
+<meta name="description" content="Practical SwiftCove help for setting up experiences, managing availability, accepting O-Pay card payments, and connecting your booking page." />
+<link rel="icon" type="image/png" href="SwiftCove-whitebg.png" />
+<link rel="apple-touch-icon" href="SwiftCove-whitebg.png" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          sea: '#0FA3A8', seadark: '#0A7A7E', deep: '#0A2540', sand: '#F5EEDF',
+          chalk: '#FDFAF3', shell: '#EFE6D2', coral: '#E37A55', mist: '#6B7A85',
+        },
+        fontFamily: {
+          display: ['Fraunces', 'ui-serif', 'Georgia', 'serif'],
+          sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        },
+        letterSpacing: { tightest: '-0.04em' },
+        boxShadow: {
+          card: '0 1px 0 rgba(10,37,64,0.04), 0 20px 40px -24px rgba(10,37,64,0.20)',
+        },
+      },
+    },
+  };
+</script>
+
+<style>
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', system-ui, sans-serif; background: #F5EEDF; color: #0A2540; }
+  .font-display { font-family: 'Fraunces', Georgia, serif; font-optical-sizing: auto; }
+  :focus-visible { outline: 2px solid #0FA3A8; outline-offset: 3px; border-radius: 6px; }
+  .brand-logo { position: relative; display: block; width: 148px; height: 40px; overflow: visible; }
+  .brand-logo img { position: absolute; top: 50%; left: 50%; width: 230px; max-width: none; transform: translate(-50%, -50%); }
+  .help-question summary { list-style: none; cursor: pointer; }
+  .help-question summary::-webkit-details-marker { display: none; }
+  .help-question[open] .help-plus { transform: rotate(45deg); }
+  .help-plus { transition: transform .18s ease; }
+  .wave { height: 18px; width: 100%; background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 120 12' preserveAspectRatio='none'><path d='M0 6 Q 10 0 20 6 T 40 6 T 60 6 T 80 6 T 100 6 T 120 6' fill='none' stroke='%230FA3A8' stroke-width='1.2' stroke-linecap='round'/></svg>"); background-repeat: repeat-x; background-size: 120px 12px; opacity: .5; }
+</style>
+</head>
+
+<body class="antialiased">
+  <header class="border-b border-deep/8 bg-sand/95 backdrop-blur">
+    <div class="max-w-6xl mx-auto h-16 px-5 md:px-8 flex items-center justify-between gap-4">
+      <a href="cove.html" aria-label="Back to SwiftCove" class="group">
+        <span class="brand-logo"><img src="SwiftCove_Logo2.png" alt="SwiftCove"></span>
+      </a>
+      <div class="flex items-center gap-3 text-[14px]">
+        <a href="cove.html" class="hidden sm:inline-flex items-center gap-2 text-deep/70 hover:text-deep">
+          <i class="fa-solid fa-arrow-left text-[11px]"></i> Back to SwiftCove
+        </a>
+        <a href="cove.html#cta" class="inline-flex items-center gap-2 rounded-full bg-deep text-chalk px-4 py-2 font-medium hover:bg-[#0C1A24] transition">
+          Start a free trial <i class="fa-solid fa-arrow-right text-[11px]"></i>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="relative overflow-hidden bg-deep text-chalk">
+      <svg aria-hidden="true" class="absolute right-[-80px] top-[-150px] w-[520px] h-[520px] text-sea/20" viewBox="0 0 520 520" fill="none">
+        <circle cx="260" cy="260" r="176" stroke="currentColor" stroke-width="2"/>
+        <circle cx="260" cy="260" r="134" stroke="currentColor" stroke-width="2"/>
+        <path d="M-20 337c70-49 140 49 210 0s140-49 210 0 140 49 210 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+        <path d="M-20 372c70-49 140 49 210 0s140-49 210 0 140 49 210 0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+      </svg>
+      <div class="relative max-w-6xl mx-auto px-5 md:px-8 pt-16 pb-20 md:pt-24 md:pb-28">
+        <p class="inline-flex items-center gap-2 rounded-full bg-chalk/10 px-3.5 py-2 text-[12px] text-chalk/75">
+          <i class="fa-regular fa-life-ring text-sea"></i> SwiftCove Help Center
+        </p>
+        <h1 class="font-display text-[44px] sm:text-[58px] md:text-[70px] tracking-tightest leading-[.97] mt-6 max-w-3xl">
+          Let’s get your guests
+          <span class="text-sea">booked.</span>
+        </h1>
+        <p class="mt-5 max-w-2xl text-[16px] md:text-[18px] leading-[1.6] text-chalk/75">
+          Straight answers for setting up your experiences, managing live availability, taking card payments through O‑Pay, and putting SwiftCove on your site.
+        </p>
+        <nav aria-label="Help Center topics" class="mt-9 flex flex-wrap gap-2.5">
+          <a href="#getting-started" class="rounded-full bg-chalk text-deep px-4 py-2.5 text-[13px] font-medium hover:bg-shell transition">Getting started</a>
+          <a href="#bookings" class="rounded-full ring-1 ring-chalk/25 px-4 py-2.5 text-[13px] font-medium text-chalk/85 hover:bg-chalk/10 transition">Bookings &amp; availability</a>
+          <a href="#payments" class="rounded-full ring-1 ring-chalk/25 px-4 py-2.5 text-[13px] font-medium text-chalk/85 hover:bg-chalk/10 transition">O‑Pay payments</a>
+          <a href="#website" class="rounded-full ring-1 ring-chalk/25 px-4 py-2.5 text-[13px] font-medium text-chalk/85 hover:bg-chalk/10 transition">Website &amp; branding</a>
+          <a href="#account" class="rounded-full ring-1 ring-chalk/25 px-4 py-2.5 text-[13px] font-medium text-chalk/85 hover:bg-chalk/10 transition">Account &amp; plan</a>
+        </nav>
+      </div>
+      <div class="wave opacity-70"></div>
+    </section>
+
+    <section class="bg-sand">
+      <div class="max-w-6xl mx-auto px-5 md:px-8 py-14 md:py-20">
+        <div class="grid lg:grid-cols-12 gap-10 lg:gap-14">
+          <aside class="hidden lg:block lg:col-span-3">
+            <div class="sticky top-7">
+              <p class="text-[11px] uppercase tracking-[0.18em] font-semibold text-deep/40">Browse by topic</p>
+              <nav class="mt-4 space-y-1 text-[14px] text-deep/70">
+                <a href="#getting-started" class="block rounded-lg px-3 py-2 hover:bg-chalk hover:text-deep">Getting started</a>
+                <a href="#bookings" class="block rounded-lg px-3 py-2 hover:bg-chalk hover:text-deep">Bookings &amp; availability</a>
+                <a href="#payments" class="block rounded-lg px-3 py-2 hover:bg-chalk hover:text-deep">O‑Pay payments</a>
+                <a href="#website" class="block rounded-lg px-3 py-2 hover:bg-chalk hover:text-deep">Website &amp; branding</a>
+                <a href="#account" class="block rounded-lg px-3 py-2 hover:bg-chalk hover:text-deep">Account &amp; plan</a>
+              </nav>
+              <div class="mt-8 rounded-2xl bg-chalk ring-1 ring-deep/8 p-5 shadow-card">
+                <i class="fa-regular fa-envelope text-seadark"></i>
+                <p class="mt-3 font-display text-[19px] leading-tight">Still stuck?</p>
+                <p class="mt-2 text-[13px] leading-[1.55] text-deep/65">Send us the tour, date, and booking you’re looking at. We’ll point you in the right direction.</p>
+                <a href="mailto:hello@cove.co?subject=SwiftCove%20Help" class="mt-4 inline-flex items-center gap-2 text-[13px] font-medium text-seadark hover:text-deep">Email SwiftCove <i class="fa-solid fa-arrow-right text-[10px]"></i></a>
+              </div>
+            </div>
+          </aside>
+
+          <div class="lg:col-span-9 space-y-16 md:space-y-20">
+            <section id="getting-started" class="scroll-mt-6">
+              <div class="max-w-2xl">
+                <p class="text-[12px] uppercase tracking-[0.18em] font-semibold text-seadark">Getting started</p>
+                <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">From tour details to a live booking page.</h2>
+                <p class="mt-4 text-[16px] leading-[1.6] text-deep/70">SwiftCove is built around a simple outcome: a guest should be able to pick the right date and time, see whether there is room, pay, and receive a real confirmation without your team checking a chat first.</p>
+              </div>
+              <div class="mt-8 divide-y divide-deep/10 border-y border-deep/10">
+                <details class="help-question py-5" open>
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">What exactly does SwiftCove do?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>SwiftCove gives each experience a public booking page. A guest chooses a date, picks an available time slot, selects their party size, sees the correct price, and pays through O‑Pay. Once payment is confirmed, the booking is recorded against that specific slot and the remaining capacity updates.</p>
+                    <p class="mt-3">It is designed for experiences that have a real operating schedule—sunset sails, excursions, classes, transfers, private charters, and other bookings where the time and number of available places matter.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How do I start a 15-day trial?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Request a trial from SwiftCove and we will prepare your account for your business. The trial is the time to put a real experience on the page, test the booking journey, and make sure your O‑Pay connection and availability rules match how you actually operate.</p>
+                    <p class="mt-3">There is no need to decide on a long-term plan before you see it working. After 15 days, you can continue for US$35/month if SwiftCove is a fit.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">What should I have ready for setup?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Bring the same information a guest needs before deciding to book: experience names and descriptions, images, prices, adult or child rates where relevant, operating days, start times, duration, maximum capacity, and your cancellation policy.</p>
+                    <p class="mt-3">You will also need your logo and colours for the booking page, the domain you want to use if you have one, and an active O‑Pay account before card payments can be turned on.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Can you move my existing schedule into SwiftCove?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Yes. Send your current schedule in the format you already use—a website link, a spreadsheet, screenshots, or even a clear list of departures and prices. We use it to set up the experiences, rates, and availability you need rather than asking you to rebuild everything from scratch.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <section id="bookings" class="scroll-mt-6">
+              <div class="max-w-2xl">
+                <p class="text-[12px] uppercase tracking-[0.18em] font-semibold text-seadark">Bookings &amp; availability</p>
+                <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">Keep the count honest, even when the day changes.</h2>
+                <p class="mt-4 text-[16px] leading-[1.6] text-deep/70">Your availability should reflect the boat, vehicle, guide, weather, and staff you actually have—not a generic calendar that assumes every day runs the same way.</p>
+              </div>
+              <div class="mt-8 divide-y divide-deep/10 border-y border-deep/10">
+                <details class="help-question py-5" open>
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How are dates, time slots, and capacity set up?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Each experience is configured with the days it can run, the times guests can book, and the maximum number of people allowed in each slot. A 9:00 am reef tour and a 2:00 pm reef tour are separate slots, so their seats are counted separately.</p>
+                    <p class="mt-3">When a paid booking comes in, SwiftCove applies it to the selected slot. Guests see the remaining places before they commit, while you see the same count in the booking view.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How do I block availability for a day or time?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Use a per-day availability override when your regular schedule should not apply. You can close an entire date, remove a single departure, or reduce capacity for a specific day without changing the normal schedule that follows it.</p>
+                    <p class="mt-3">That is useful when a private charter takes the boat, a guide is unavailable, the weather forces a closure, or you want to hold places back for a group. Guests will only be shown the slots you leave available.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Can I use different prices for adults, children, private tours, or groups?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Yes. SwiftCove supports shared and private experiences, adult and child pricing, and per-slot capacity. The total is calculated from the guest choices inside the booking flow, so the amount shown at checkout matches the date, time, party type, and party size they selected.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">What happens after a guest books?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Once O‑Pay confirms the card payment, SwiftCove marks the booking paid, applies the seats to the chosen slot, and records it in your bookings. The guest has a confirmed reservation rather than an enquiry waiting for someone to reply.</p>
+                    <p class="mt-3">SwiftCove also sends an automatic email reminder 24 hours before departure, so guests have the details again when they need them.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How do refunds and cancellations work?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Your cancellation policy is shown as part of the booking experience. When a booking needs to be refunded, it can be handled from the dashboard instead of being lost in an email thread or a group chat.</p>
+                    <p class="mt-3">Set rules that reflect how your experience actually operates—especially where weather, marine conditions, or limited daily capacity affect what is possible.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <section id="payments" class="scroll-mt-6">
+              <div class="max-w-2xl">
+                <p class="text-[12px] uppercase tracking-[0.18em] font-semibold text-seadark">O‑Pay payments</p>
+                <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">A local way to take a card before departure.</h2>
+                <p class="mt-4 text-[16px] leading-[1.6] text-deep/70">SwiftCove runs the booking flow. O‑Pay is the card-payment layer behind it, so a booking is not treated as paid until the payment is confirmed.</p>
+              </div>
+              <div class="mt-8 divide-y divide-deep/10 border-y border-deep/10">
+                <details class="help-question py-5" open>
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Why does SwiftCove require an O‑Pay account?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>All card payments on SwiftCove are processed through O‑Pay’s hosted checkout. An active O‑Pay account is therefore required before your booking page can accept cards. SwiftCove does not replace O‑Pay or hold your card funds; it connects the payment result to the right booking and availability slot.</p>
+                    <p class="mt-3">This gives Caribbean experience businesses a local card-payment route without needing a US bank account, EIN, or stateside setup.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">What does the guest see when they pay by card?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>After choosing their date, time, and party details, the guest is taken to O‑Pay’s hosted checkout to enter card details. Cards are captured and 3‑D Secure is handled on O‑Pay’s page—not inside SwiftCove.</p>
+                    <p class="mt-3">When O‑Pay confirms payment, SwiftCove receives that confirmation and marks the corresponding booking paid. A guest should not be counted as confirmed merely because they said they would pay later.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Where do the funds go?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>O‑Pay routes settlement to the account connected to your O‑Pay profile. SwiftCove does not receive or store the guest’s card details; it uses O‑Pay’s payment confirmation to keep your bookings accurate.</p>
+                    <p class="mt-3">SwiftCove supports booking pages that settle in XCD, JMD, TTD, BSD, DOP, GYD, and USD, according to the currencies available to your O‑Pay setup.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <section id="website" class="scroll-mt-6">
+              <div class="max-w-2xl">
+                <p class="text-[12px] uppercase tracking-[0.18em] font-semibold text-seadark">Website &amp; branding</p>
+                <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">Let your site tell the story. Let SwiftCove take the booking.</h2>
+                <p class="mt-4 text-[16px] leading-[1.6] text-deep/70">You do not need to turn an existing site into a booking system. SwiftCove gives it a clean, branded place to send guests when they are ready.</p>
+              </div>
+              <div class="mt-8 divide-y divide-deep/10 border-y border-deep/10">
+                <details class="help-question py-5" open>
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How do I add SwiftCove to my website?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Point the Book now button on your existing website to your SwiftCove booking-page link. There is no plugin, iframe, or JavaScript snippet to paste into your site. The marketing site stays focused on your story; SwiftCove takes over when a guest is ready to choose a slot and pay.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Can the booking page look like my business?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Yes. Your SwiftCove booking page can carry your logo, colours, and custom domain, so the step between discovering the experience and paying for it feels continuous. The guest is booking with your business, not being dropped into a cluttered third-party marketplace.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Can SwiftCove build a website for my tours too?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Yes. If you need a proper landing page for your experience business, SwiftCove can build one around your tours and booking page. It is included free for the first six months of a SwiftCove plan—there is no separate web package to buy.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+
+            <section id="account" class="scroll-mt-6">
+              <div class="max-w-2xl">
+                <p class="text-[12px] uppercase tracking-[0.18em] font-semibold text-seadark">Account &amp; plan</p>
+                <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">The practical details.</h2>
+                <p class="mt-4 text-[16px] leading-[1.6] text-deep/70">The plan is deliberately simple: SwiftCove gives you the booking infrastructure; your business keeps control of the experience, availability, and guest relationship.</p>
+              </div>
+              <div class="mt-8 divide-y divide-deep/10 border-y border-deep/10">
+                <details class="help-question py-5" open>
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">What is included in the US$35/month plan?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>The plan includes unlimited tours and bookings, a branded booking page on your domain, live slot availability, adult and child pricing, private or shared experiences, O‑Pay card checkout, automatic email reminders, and booking management.</p>
+                    <p class="mt-3">There are no per-booking fees and no add-ons needed for the core booking flow. O‑Pay remains the required payment provider for card transactions.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">How do I update my business and booking-page details?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Keep the details guests see accurate as your business changes: your logo, colours, domain, experience descriptions, schedule, prices, capacity, and cancellation policy. These details are what shape the booking page and the rules guests book against.</p>
+                    <p class="mt-3">For changes that affect a future departure—such as closing a date or changing seats—use the availability and booking settings before guests are sent to that slot.</p>
+                  </div>
+                </details>
+                <details class="help-question py-5">
+                  <summary class="flex items-start justify-between gap-5 font-display text-[20px] text-deep leading-tight">Can I cancel if SwiftCove is not right for me?<span class="help-plus mt-0.5 text-sea text-[18px] font-sans">+</span></summary>
+                  <div class="pt-4 max-w-2xl text-[14.5px] leading-[1.65] text-deep/70">
+                    <p>Yes. The trial lets you test SwiftCove with your real schedule before you continue, and the monthly plan can be cancelled at any time. We would rather the system earn its place in your operation than lock you into a contract that does not fit.</p>
+                  </div>
+                </details>
+              </div>
+            </section>
+          </div>
+        </div>
+
+        <section class="mt-16 md:mt-20 rounded-3xl bg-deep text-chalk p-8 md:p-12 text-center relative overflow-hidden">
+          <svg aria-hidden="true" class="absolute inset-0 h-full w-full opacity-15" viewBox="0 0 800 300" preserveAspectRatio="none"><path d="M0 190Q200 140 400 190T800 190V300H0Z" fill="#0FA3A8"/><path d="M0 230q200-45 400 0t400 0v70H0Z" fill="#0FA3A8" opacity=".6"/></svg>
+          <div class="relative max-w-xl mx-auto">
+            <p class="text-[12px] uppercase tracking-[0.18em] text-sea font-semibold">Need a hand?</p>
+            <h2 class="font-display text-[34px] md:text-[44px] leading-[1.05] tracking-tightest mt-3">Tell us what is happening.</h2>
+            <p class="mt-4 text-[15px] leading-[1.6] text-chalk/75">Include the experience, date, time, and booking you are looking at. We will help you find the next step.</p>
+            <a href="mailto:hello@cove.co?subject=SwiftCove%20Help" class="mt-6 inline-flex items-center gap-2 rounded-full bg-chalk text-deep px-5 py-3 text-[14px] font-medium hover:bg-shell transition">Email SwiftCove <i class="fa-solid fa-arrow-right text-[11px]"></i></a>
+          </div>
+        </section>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-deep/8 bg-sand">
+    <div class="max-w-6xl mx-auto px-5 md:px-8 py-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 text-[13px] text-deep/60">
+      <span>© 2026 SwiftCove Booking Inc. Built in the Caribbean, for the Caribbean.</span>
+      <div class="flex items-center gap-5">
+        <a href="cove.html" class="hover:text-deep">SwiftCove home</a>
+        <a href="mailto:hello@cove.co" class="hover:text-deep">hello@cove.co</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>
