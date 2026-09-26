@@ -354,11 +354,17 @@
   .hero__title-accent { color: #65D49C; }
   
   .hero__sub {
-    font-size: clamp(17px, 1.6vw, 20px);
-    line-height: 1.55;
+    font-size: clamp(16px, 1.35vw, 18px);
+    line-height: 1.5;
     color: #B7C7C9;
-    max-width: 560px;
-    margin: 0 0 34px;
+    max-width: 600px;
+    margin: 0 0 30px;
+  }
+  .hero__sub p { margin: 0; }
+  .hero__sub p + p { margin-top: 12px; }
+  .hero__sub-emphasis {
+    color: #D8E5E1;
+    font-weight: 600;
   }
   .hero__link {
     color: #E8F0EC;
