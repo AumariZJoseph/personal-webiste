@@ -8,70 +8,105 @@
   setNavState();
   window.addEventListener('scroll', setNavState, { passive: true });
 
-  // ---- Hero globe: sticky, transform-only scroll sequence on larger screens ----
+  // ---- Hero globe: a pinned, scroll-linked camera move on larger screens ----
   const hero = document.querySelector('.hero');
   const heroStage = document.querySelector('.hero__stage');
   const globe = document.querySelector('.hero__globe-art');
-  const desktopViewport = window.matchMedia('(min-width: 761px)');
+  const globeFrame = document.querySelector('.hero__globe');
+  const desktopViewport = window.matchMedia('(min-width: 961px)');
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
-  if (hero && heroStage && globe) {
+  if (hero && heroStage && globe && globeFrame) {
     let globeVisible = true;
-    let globeFrame = null;
+    let animationFrame = null;
+    let targetProgress = 0;
+    let renderedProgress = 0;
+    let hasRendered = false;
 
     const clamp = (value) => Math.min(1, Math.max(0, value));
-    const smoothstep = (value) => {
+    const smootherstep = (value) => {
       const t = clamp(value);
-      return t * t * (3 - 2 * t);
+      return t * t * t * (t * (t * 6 - 15) + 10);
     };
-    const stage = (progress, start, end, from, to) => {
-      return from + (to - from) * smoothstep((progress - start) / (end - start));
-    };
+    const lerp = (from, to, amount) => from + (to - from) * amount;
+    const cameraStops = [
+      { at: 0,    scale: 1,    x: 0,  y: 0,  opacity: .72 },
+      { at: .18,  scale: 1.08, x: 3,  y: .5, opacity: .72 },
+      { at: .50,  scale: 1.8,  x: 17, y: 3,  opacity: .68 },
+      { at: .78,  scale: 2.9,  x: 38, y: 6.5, opacity: .61 },
+      { at: 1,    scale: 4.35, x: 60, y: 10, opacity: .54 }
+    ];
     const canAnimateGlobe = () => desktopViewport.matches && !reducedMotion.matches;
 
-    const updateGlobe = () => {
-      globeFrame = null;
+    const getCamera = (progress) => {
+      let endIndex = cameraStops.findIndex((stop) => progress <= stop.at);
+      if (endIndex <= 0) return cameraStops[0];
+      if (endIndex === -1) return cameraStops[cameraStops.length - 1];
+
+      const start = cameraStops[endIndex - 1];
+      const end = cameraStops[endIndex];
+      const amount = smootherstep((progress - start.at) / (end.at - start.at));
+      return {
+        scale: lerp(start.scale, end.scale, amount),
+        x: lerp(start.x, end.x, amount),
+        y: lerp(start.y, end.y, amount),
+        opacity: lerp(start.opacity, end.opacity, amount)
+      };
+    };
+
+    const paintGlobe = () => {
+      animationFrame = null;
+
       if (!canAnimateGlobe()) {
         globe.style.removeProperty('--globe-scale');
         globe.style.removeProperty('--globe-x');
         globe.style.removeProperty('--globe-y');
-        globe.style.removeProperty('--caribbean-detail');
-        globe.style.removeProperty('--world-detail');
+        globeFrame.style.removeProperty('--globe-opacity');
+        hasRendered = false;
+        return;
+      }
+
+      if (!hasRendered) {
+        renderedProgress = targetProgress;
+        hasRendered = true;
+      } else {
+        renderedProgress = lerp(renderedProgress, targetProgress, .16);
+      }
+
+      const camera = getCamera(renderedProgress);
+      globe.style.setProperty('--globe-scale', camera.scale.toFixed(4));
+      globe.style.setProperty('--globe-x', `${camera.x.toFixed(3)}%`);
+      globe.style.setProperty('--globe-y', `${camera.y.toFixed(3)}%`);
+      globeFrame.style.setProperty('--globe-opacity', camera.opacity.toFixed(3));
+
+      if (Math.abs(targetProgress - renderedProgress) > .00025) {
+        animationFrame = requestAnimationFrame(paintGlobe);
+      }
+    };
+
+    const measureGlobe = () => {
+      if (!canAnimateGlobe()) {
+        if (!animationFrame) animationFrame = requestAnimationFrame(paintGlobe);
         return;
       }
 
       const bounds = hero.getBoundingClientRect();
       const scrollRange = Math.max(hero.offsetHeight - window.innerHeight, 1);
-      const progress = clamp(-bounds.top / scrollRange);
-      const scale = progress < .24
-        ? stage(progress, 0, .24, 1, 1.32)
-        : progress < .62
-          ? stage(progress, .24, .62, 1.32, 2.18)
-          : stage(progress, .62, 1, 2.18, 3.7);
-      const drift = smoothstep(progress);
-      const caribbeanDetail = smoothstep((progress - .48) / .52);
-
-      globe.style.setProperty('--globe-scale', scale.toFixed(3));
-      globe.style.setProperty('--globe-x', `${(23 * drift).toFixed(2)}%`);
-      globe.style.setProperty('--globe-y', `${(25 * drift).toFixed(2)}%`);
-      globe.style.setProperty('--caribbean-detail', caribbeanDetail.toFixed(3));
-      globe.style.setProperty('--world-detail', (1 - (.65 * caribbeanDetail)).toFixed(3));
+      targetProgress = clamp(-bounds.top / scrollRange);
+      if (globeVisible && !animationFrame) animationFrame = requestAnimationFrame(paintGlobe);
     };
 
-    const requestGlobeUpdate = () => {
-      if (globeVisible && !globeFrame) globeFrame = requestAnimationFrame(updateGlobe);
-    };
     const globeObserver = new IntersectionObserver(([entry]) => {
       globeVisible = entry.isIntersecting;
-      if (globeVisible) requestGlobeUpdate();
+      if (globeVisible) measureGlobe();
     }, { threshold: 0 });
 
     globeObserver.observe(hero);
-    requestGlobeUpdate();
-    window.addEventListener('scroll', requestGlobeUpdate, { passive: true });
-    window.addEventListener('resize', requestGlobeUpdate, { passive: true });
-    desktopViewport.addEventListener('change', requestGlobeUpdate);
-    reducedMotion.addEventListener('change', requestGlobeUpdate);
+    measureGlobe();
+    window.addEventListener('scroll', measureGlobe, { passive: true });
+    window.addEventListener('resize', measureGlobe, { passive: true });
+    desktopViewport.addEventListener('change', measureGlobe);
+    reducedMotion.addEventListener('change', measureGlobe);
   }
 
   // ---- Mobile menu ----

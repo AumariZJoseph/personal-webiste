@@ -287,8 +287,8 @@
     display: flex; align-items: center;
   }
 
-  @media (min-width: 761px) and (prefers-reduced-motion: no-preference) {
-    .hero { min-height: 185svh; }
+  @media (min-width: 961px) and (prefers-reduced-motion: no-preference) {
+    .hero { min-height: 240svh; }
     .hero__stage {
       position: sticky;
       top: 0;
@@ -308,7 +308,7 @@
     -webkit-mask-image: radial-gradient(ellipse at 60% 40%, black 40%, transparent 85%);
   }
 
-  /* One transform-only background layer; it never competes with the hero copy. */
+  /* The map itself is a pre-projected SVG. Scroll only changes this compositor layer. */
   .hero__globe {
     position: absolute;
     z-index: 0;
@@ -316,7 +316,7 @@
     aspect-ratio: 1;
     top: 50%;
     left: 61%;
-    opacity: .72;
+    opacity: var(--globe-opacity, .72);
     pointer-events: none;
     transform: translate(-50%, -50%);
   }
@@ -324,58 +324,10 @@
     display: block;
     width: 100%;
     height: 100%;
-    overflow: visible;
-    transform-box: fill-box;
+    object-fit: contain;
     transform-origin: 50% 50%;
-    transform: translate(var(--globe-x, 0%), var(--globe-y, 0%)) scale(var(--globe-scale, 1));
+    transform: translate3d(var(--globe-x, 0%), var(--globe-y, 0%), 0) scale(var(--globe-scale, 1));
     will-change: transform;
-  }
-  .hero__globe-caribbean {
-    opacity: var(--caribbean-detail, 0);
-  }
-  .hero__globe-world-grid,
-  .hero__globe-world-land {
-    opacity: var(--world-detail, 1);
-  }
-  .hero__globe-caribbean__islands {
-    fill: #72D8C8;
-    fill-opacity: .72;
-    stroke: #D2FFF7;
-    stroke-opacity: .92;
-    stroke-width: 1.5;
-  }
-  .hero__globe-caribbean__major { fill: #8AE0D1; }
-  .hero__globe-caribbean__saint-lucia { fill: #C4FFF3; }
-  .hero__globe-caribbean__contours {
-    stroke: #B9FFF2;
-    stroke-opacity: .28;
-    stroke-width: 1.2;
-    stroke-dasharray: 3 6;
-  }
-  .hero__globe-caribbean__leaders {
-    stroke: #BEFFF3;
-    stroke-opacity: .68;
-    stroke-width: 1.2;
-  }
-  .hero__globe-caribbean__labels {
-    fill: #E5FFFA;
-    font-family: var(--f-mono);
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: .02em;
-    paint-order: stroke;
-    stroke: #062A30;
-    stroke-opacity: .9;
-    stroke-width: 3.5px;
-    stroke-linejoin: round;
-  }
-  .hero__globe-caribbean__sea-label {
-    fill: #B9FFF2;
-    fill-opacity: .5;
-    font-family: var(--f-mono);
-    font-size: 8px;
-    font-weight: 500;
-    letter-spacing: .18em;
   }
   
   .hero__inner {
@@ -1329,6 +1281,16 @@
     .hero__inner { grid-template-columns: 1fr; gap: 40px; }
     .hero__right { order: -1; }
     .portrait { width: min(240px, 60vw); }
+    .hero__globe {
+      width: min(700px, 128vw);
+      top: 34%;
+      left: 50%;
+      opacity: .42;
+    }
+    .hero__globe-art {
+      transform: translate3d(35%, 0, 0) scale(3.2);
+      will-change: auto;
+    }
     .about__grid { grid-template-columns: 1fr; gap: 56px; }
     .services__grid { grid-template-columns: 1fr; }
     .client__link { padding: 16px 18px; gap: 16px; }
@@ -1343,19 +1305,8 @@
     .nav__mobile { display: block; }
     .nav__mobile[hidden] { display: none; }
 
-    /* Static, Caribbean-focused composition on smaller screens. */
-    .hero__globe {
-      width: 500px;
-      top: 34%;
-      left: 53%;
-      opacity: .48;
-    }
-    .hero__globe-art {
-      --caribbean-detail: 1;
-      --world-detail: .35;
-      transform: translate(23%, 25%) scale(2.45);
-    }
-    .hero__globe-caribbean__labels { display: none; }
+    /* The already-rendered Caribbean view remains static on mobile. */
+    .hero__globe { width: 128vw; opacity: .38; }
   }
   
   @media (max-width: 640px) {
@@ -1381,9 +1332,9 @@
   }
 
   @media (prefers-reduced-motion: reduce) {
+    .hero__globe { opacity: .42; }
     .hero__globe-art {
-      --caribbean-detail: 1;
-      --world-detail: .35;
-      transform: translate(23%, 25%) scale(2.15);
+      transform: translate3d(35%, 0, 0) scale(3.2);
+      will-change: auto;
     }
   }
