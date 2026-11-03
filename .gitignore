@@ -1,4 +1,12 @@
 .agents/
 .codex/
-.codex/skills
-.agents/skills/ui-ux-pro-max
+.claude/
+.vscode/
+node_modules/
+blog/**/artifacts/
+playwright-report/
+test-results/
+tmp-*.cjs
+*.log
+.DS_Store
+Thumbs.db

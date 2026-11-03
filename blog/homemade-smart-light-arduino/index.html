@@ -1,0 +1,386 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Homemade Smart Light with Arduino &amp; Bluetooth | Aumari Joseph</title>
+  <meta name="description" content="How we built a homemade Arduino motion sensor light with Bluetooth and an Android app. My college project story, lessons learned, and beginner guide." />
+  <meta name="robots" content="index, follow, max-snippet:-1" />
+  <meta name="theme-color" content="#062a30" />
+  <link rel="icon" type="image/jpeg" href="../../hero1.jpeg" />
+  <link rel="apple-touch-icon" href="../../hero1.jpeg" />
+  <link rel="canonical" href="https://aumarijoseph.com/blog/homemade-smart-light-arduino/" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://aumarijoseph.com/blog/homemade-smart-light-arduino/" />
+  <meta property="og:site_name" content="Aumari Joseph" />
+  <meta property="og:title" content="How We Built a Homemade Smart Light with Arduino and Bluetooth" />
+  <meta property="og:description" content="A college assignment became a motion-sensing light, an Android app, and a lasting lesson in making hardware and software work together." />
+  <meta property="og:image" content="https://aumarijoseph.com/blog/homemade-smart-light-arduino/assets/top-view-inside-casing.jpeg" />
+  <meta property="og:image:width" content="1600" />
+  <meta property="og:image:height" content="1340" />
+  <meta property="og:image:alt" content="Top-down view inside the original cardboard smart-light prototype" />
+  <meta property="article:author" content="Aumari Joseph" />
+  <meta property="article:published_time" content="2026-10-31" />
+  <meta property="article:modified_time" content="2026-11-03" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="How We Built a Homemade Smart Light with Arduino and Bluetooth" />
+  <meta name="twitter:description" content="The story, working circuit foundation, Bluetooth app, and interactive smart-light simulator." />
+  <meta name="twitter:image" content="https://aumarijoseph.com/blog/homemade-smart-light-arduino/assets/top-view-inside-casing.jpeg" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": "How We Built a Homemade Smart Light with Arduino and Bluetooth",
+    "description": "How we built a homemade Arduino motion sensor light with Bluetooth and an Android app.",
+    "datePublished": "2026-10-31",
+    "dateModified": "2026-11-03",
+    "inLanguage": "en",
+    "mainEntityOfPage": "https://aumarijoseph.com/blog/homemade-smart-light-arduino/",
+    "image": "https://aumarijoseph.com/blog/homemade-smart-light-arduino/assets/top-view-inside-casing.jpeg",
+    "author": { "@type": "Person", "name": "Aumari Joseph", "url": "https://aumarijoseph.com/" },
+    "publisher": { "@type": "Person", "name": "Aumari Joseph", "url": "https://aumarijoseph.com/" },
+    "keywords": ["homemade smart light", "Arduino motion sensor light", "Bluetooth controlled Arduino light", "MIT App Inventor"]
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "./vendor/three.module.min.js",
+      "three/addons/controls/OrbitControls.js": "./vendor/OrbitControls.js",
+      "three/addons/environments/RoomEnvironment.js": "./vendor/RoomEnvironment.js"
+    }
+  }
+  </script>
+  <link rel="stylesheet" href="../blog.css" />
+</head>
+<body>
+  <a class="skip-link" href="#article">Skip to article</a>
+  <header class="site-header">
+    <div class="site-header__inner">
+      <a class="brand" href="../../" aria-label="Aumari Joseph home">
+        <span class="brand__monogram" aria-hidden="true">AJ</span>
+        <span>Aumari Joseph</span>
+        <span class="brand__section">/ writing</span>
+      </a>
+      <nav class="site-nav" aria-label="Blog navigation">
+        <a href="../">All writing</a>
+        <a class="site-nav__portfolio" href="../../">Back to portfolio</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="article">
+    <header class="article-hero">
+      <div class="article-hero__inner">
+        <nav class="breadcrumbs" aria-label="Breadcrumb"><a href="../../">Home</a><span>/</span><a href="../">Writing</a><span>/</span><span>Project story</span></nav>
+        <p class="kicker">Arduino · electronics · learning by building</p>
+        <h1>How We Built a Homemade Smart Light with Arduino and Bluetooth</h1>
+        <p class="article-hero__dek">The story, wiring, and lessons behind our working smart light—plus an interactive circuit simulator you can build and operate in the browser.</p>
+        <a class="article-hero__cta" href="#simulator-3d"><span>Try the interactive build</span><span aria-hidden="true">↘</span></a>
+        <p class="article-meta"><span>By Aumari Joseph</span><span><time datetime="2026-10-31">October 31, 2026</time></span><span>16 min read</span><span>With Sacchin Cepal</span></p>
+      </div>
+    </header>
+
+    <div class="article-layout">
+      <aside class="toc" aria-label="On this page">
+        <p>On this page</p>
+        <ol>
+          <li><a href="#assignment">The assignment</a></li>
+          <li><a href="#first-build">Our first build</a></li>
+          <li><a href="#smart-light">Adding Bluetooth</a></li>
+          <li><a href="#app">Building the app</a></li>
+          <li><a href="#simulator-3d">Try the 3D lab</a></li>
+          <li><a href="#impact">What it changed</a></li>
+          <li><a href="#build-guide">Build guide</a></li>
+          <li><a href="#faq">Questions</a></li>
+        </ol>
+      </aside>
+
+      <article class="article-body">
+        <p class="lead">In my final year of college, a friend and I decided to build our own motion sensor light using an Arduino. What began as a fairly simple assignment eventually became a homemade smart light we could control from an Android app—and now, a <a href="#simulator-3d">working 3D browser simulation you can wire and test yourself</a>.</p>
+        <div class="story-note">
+          <strong>Before we rewind:</strong>
+          <p>This entire story took place in early 2023, so a few of the finer details are naturally a little vague now. It was also before the current surge of everyday generative AI tools. With what is available today, I am sure someone tackling a project like this could use AI to move ten times faster—understand components, diagnose problems, and iterate without spending quite as many nights lost between forum posts and YouTube videos.</p>
+        </div>
+        <a class="experience-callout" href="#simulator-3d">
+          <span class="experience-callout__label">Interactive project</span>
+          <strong>Wire the components, trigger the PIR sensor, and send the same Bluetooth commands as our original app.</strong>
+          <span class="experience-callout__action">Open the simulator <span aria-hidden="true">↓</span></span>
+        </a>
+        <p>At the time, neither of us knew much about electronics. But that was part of the fun.</p>
+        <p>This is the story of how we built it, the countless hours spent figuring out why things weren’t working, and why this particular project had such an impact on me. If you’re a student looking for a project idea—or just someone interested in building things—I hope it gives you a little inspiration to try something yourself.</p>
+        <a class="jump-link" href="#build-guide">Just interested in building one? Skip to the build guide ↓</a>
+
+        <h2 id="assignment">It started with a college assignment</h2>
+        <p>It was my final year at Sir Arthur Lewis Community College, and we needed to complete a final assignment for our technical project. I paired up with my friend, Sacchin Cepal, and we spent countless hours brainstorming ideas that would woo our lecturers.</p>
+        <p>Most of our classmates were working on websites or relatively simple dashboards. We wanted something different: something practical and hands-on, something that would challenge us and, more importantly, allow us to learn immensely in the process.</p>
+        <p>Around that time, I had developed a bit of an infatuation with automation and building engineering solutions at home. I’m talking Arduino Unos, Raspberry Pis, servo motors, sensors, relays, stepper motors, and all the other little components you could somehow combine to make something interesting.</p>
+        <p>That fascination came largely from watching creators like Michael Reeves and I Did a Thing. Sometimes the projects were incredibly practical. Other times, they were completely ridiculous. That was what made them interesting.</p>
+        <p>I knew very little about how any of it actually worked, but I was fascinated by what was possible. Sacchin and I initially played around with the idea of an automated locking system. Eventually, though, we settled on a homemade motion sensor light.</p>
+        <blockquote>Little did I know how much fun it would be.</blockquote>
+
+        <h2 id="first-build">Building our first Arduino motion sensor light</h2>
+        <p>There was just one problem: we both had very limited knowledge of electronics or how to use most of these components. I knew what was possible with an Arduino, but actually making everything work was a completely different story.</p>
+        <p>So, naturally, we turned to YouTube. We spent hours jumping from one video to another, one website to the next, trying to understand circuit diagrams, wiring, sensors, relays, and how all these different components worked together.</p>
+
+        <div class="callout">
+          <strong>The tutorial we followed:</strong>
+          <p><a href="https://www.youtube.com/watch?v=8wiCwrIaIT8">Watch the original Arduino PIR motion-sensor light tutorial on YouTube ↗</a>. It became the foundation of our first build; our main addition came later when we introduced Bluetooth and an Android app. Credit belongs to the original creator.</p>
+        </div>
+
+        <p>The concept itself was fairly straightforward. A PIR—passive infrared—motion sensor would detect changes in infrared radiation associated with movement and send a signal to the Arduino. The Arduino would then control a relay, which acted as an electrically operated switch for the light.</p>
+        <p>At least, that was the idea.</p>
+        <p>I remember one of our earliest challenges was simply getting the relay to click when motion was detected. It sounded simple enough. Connect the components, upload the code, wave your hand in front of the sensor, and voilà.</p>
+        <p>Except, nothing happened.</p>
+        <p>So back to researching we went—checking connections, reading the code, and trying to understand what we were doing wrong. That became a common theme throughout the project. Something wouldn’t work, we’d spend hours trying to figure out why, and eventually we’d get somewhere. Then, just when we thought we had figured everything out, we’d find another way to make it more complicated.</p>
+        <p>We also learned how to adjust the two tiny controls on the PIR sensor: one for sensitivity and another for how long its output remained active after detecting movement. It involved a lot of testing, turning the knobs slightly, waving our hands in front of the sensor, and waiting to see what happened.</p>
+        <p>Eventually, we got our motion sensor light working. Seeing something we had built actually respond to movement was pretty satisfying.</p>
+        <blockquote>We were done. Or so we thought.</blockquote>
+
+        <h2 id="smart-light">From motion sensor light to smart light</h2>
+        <p>The motion sensor light worked, but it just wasn’t enough. We wanted something more—something that would challenge us even further. That was when I decided we should incorporate an app to control the light.</p>
+        <p>I mean, how hard could it be?</p>
+        <p>That decision prompted many more hours of searching. We started learning about Bluetooth modules and how they could allow an Arduino to communicate with another device. Eventually, we settled on an HC-06 Bluetooth serial module.</p>
+        <div class="system-diagram" role="img" aria-label="The app sent a Bluetooth command through an HC-06 module to the Arduino, while a PIR sensor provided motion input; the Arduino controlled the light output">
+          <div class="system-diagram__flow">
+            <div class="system-node"><strong>Android app</strong><small>sends text “1” or “0”</small></div>
+            <span class="system-arrow" aria-hidden="true">→</span>
+            <div class="system-node"><strong>HC-06 + Arduino</strong><small>receives command and reads PIR</small></div>
+            <span class="system-arrow" aria-hidden="true">→</span>
+            <div class="system-node"><strong>Light output</strong><small>controlled by the Arduino</small></div>
+          </div>
+
+        </div>
+        <p>The idea was simple. We wanted the light to operate automatically when motion was detected, but also wanted the ability to manually override it from a phone: turn it on, turn it off, and return control to the motion sensor when Bluetooth disconnected.</p>
+
+        <h2 id="app">Building the Android app with MIT App Inventor</h2>
+        <p>This was probably the most interesting part of the entire project. As a teenager who had only recently gotten into programming, automation, and building things in real life, MIT App Inventor seemed like the right option.</p>
+        <p>App Inventor lets you create Android applications with a visual, block-based programming system. Instead of writing every line yourself, you design an interface and connect blocks that determine how it behaves. Sounds simple enough, right?</p>
+        <p>For us, it became one of the most difficult parts of the project.</p>
+        <p>Our app was basic. It had a selector for paired Bluetooth devices and two buttons to control the light. One was labelled <strong>Leave ON</strong>; the other was <strong>Turn OFF</strong>. Behind the scenes, Leave ON sent the text <code>1</code>, while Turn OFF sent <code>0</code>. The Arduino then interpreted the command and controlled the output.</p>
+        <div class="media-pair media-pair--app" aria-label="Original MIT App Inventor project views">
+          <figure class="article-media">
+            <div class="media-frame media-frame--contain media-frame--portrait"><img src="assets/mit-app-inventor-designer.png" width="563" height="793" alt="MIT App Inventor Designer showing the Bluetooth selector, green Leave ON button, red Turn OFF button, and BluetoothClient component" loading="lazy" /></div>
+            <figcaption class="caption"><span>Designer view.</span> The interface was not subtle, but nobody could claim the ON and OFF buttons were difficult to find.</figcaption>
+          </figure>
+          <figure class="article-media">
+            <div class="media-frame media-frame--contain"><img src="assets/mit-app-inventor-blocks.png" width="957" height="476" alt="MIT App Inventor blocks connecting to a selected Bluetooth device and sending the text commands 1 and 0" loading="lazy" /></div>
+            <figcaption class="caption"><span>Blocks view.</span> The recovered logic lists paired devices, connects to the selected HC-06, then sends <code>1</code> for ON or <code>0</code> for OFF.</figcaption>
+          </figure>
+        </div>
+        <p>Simple in theory. Getting the software and hardware to communicate was an entirely different challenge.</p>
+        <h3>The hardest part: making everything work together</h3>
+        <p>We had to learn the Arduino IDE, upload code to the board, and test whether it did what we expected. There were plenty of failed attempts. We would change the code, upload it again, test the light, adjust the app, and repeat.</p>
+        <p>Sometimes it worked. Other times, absolutely nothing.</p>
+        <p>When something failed, we had to isolate the cause. Was the sensor detecting motion? Was the Arduino receiving the signal? Was the Bluetooth module connected? Was the app sending the right command?</p>
+        <p>Looking back, this was the hardest part of the project by far—but also the most important. It forced me to understand how different technologies communicate, how to troubleshoot, and how to research something until I could actually make sense of it.</p>
+        <p>Eventually, the app worked with the light. We could control a physical device from an application we had built ourselves. And that was pretty cool.</p>
+
+        <h2>The finished project</h2>
+        <p>What started as a simple motion sensor light had become something more interesting. We had built a prototype around an Arduino Uno, a PIR motion sensor, a relay, and an HC-06 Bluetooth module. The Arduino handled the sensor and control logic while the Android app sent manual commands.</p>
+        <p>We even built an enclosure—which is a generous way of saying we repurposed an old cardboard box, added tape, and cut a slightly enthusiastic hole for the PIR sensor. It had all the visual polish of a prototype finished five minutes before a presentation. But it worked.</p>
+        <p>If you build your own after reading this, I expect better cable management and at least one straight cut. The bar is comfortably within reach.</p>
+
+        <figure class="article-media article-media--casing">
+          <div class="media-frame media-frame--photo"><img src="assets/cardboard-electronics-casing.jpeg" width="1200" height="1600" alt="Side view of the open cardboard electronics enclosure with a rough hand-cut PIR sensor opening and jumper wires inside" loading="lazy" /></div>
+          <figcaption class="caption"><span>The enclosure.</span> Cardboard, tape, a hand-cut sensor window, and enough confidence to call it product design.</figcaption>
+        </figure>
+
+        <section class="lab3d" id="simulator-3d" data-state="unloaded" aria-labelledby="lab3d-title">
+          <header class="lab3d__head">
+            <div>
+              <p class="lab3d__eyebrow">Interactive 3D reconstruction · loads on request</p>
+              <h3 id="lab3d-title">Build the Smart Light in 3D</h3>
+              <p>Orbit a detailed workbench, connect the exact control circuit, inspect each component, then test the PIR sensor and original Bluetooth commands.</p>
+            </div>
+            <div class="lab3d__head-actions">
+              <span class="lab3d__quality" id="lab3d-quality">Performance-aware WebGL</span>
+              <button class="lab3d__expand" id="lab3d-expand" type="button" aria-pressed="false" hidden>Expand lab</button>
+            </div>
+          </header>
+
+          <div class="lab3d__launch">
+            <div class="lab3d__launch-copy">
+              <p class="lab3d__launch-kicker">A separate experience—not running on the homepage</p>
+              <strong>12 documented connections. Two build modes. One working light.</strong>
+              <ul>
+                <li>Drag to rotate · scroll or pinch to zoom</li>
+                <li>Tap real connection points to place jumper wires</li>
+                <li>Switch between guided and self-build modes</li>
+              </ul>
+              <button class="lab3d__launch-button" id="launch-3d" type="button">Launch 3D lab <span aria-hidden="true">↗</span></button>
+              <p class="lab3d__load-status" id="lab3d-load-status" role="status">Three.js is not downloaded until you launch the lab.</p>
+            </div>
+            <div class="lab3d__launch-visual" role="img" aria-label="Original smart-light prototype beneath a technical circuit overlay">
+              <span class="lab3d__trace lab3d__trace--a"></span><span class="lab3d__trace lab3d__trace--b"></span><span class="lab3d__trace lab3d__trace--c"></span>
+              <span class="lab3d__launch-badge">CONTROL-SIDE / 2023</span>
+            </div>
+          </div>
+
+          <div class="lab3d__shell" id="lab3d-shell" hidden>
+            <div class="lab3d__stage">
+              <canvas id="lab3d-canvas" role="img" aria-label="Interactive 3D smart-light circuit workbench" aria-describedby="lab3d-accessibility-note"></canvas>
+              <p class="visually-hidden" id="lab3d-accessibility-note">The 3D workbench uses pointer or touch input for camera movement and wire placement. The documented connection table and component guide remain available below the interactive section.</p>
+              <div class="lab3d__hud" aria-live="polite">
+                <span class="lab3d__status-dot" aria-hidden="true"></span>
+                <span id="lab3d-status">Circuit incomplete</span>
+                <strong id="lab3d-progress">0 / 12</strong>
+              </div>
+              <div class="lab3d__progress" aria-hidden="true"><span id="lab3d-progress-bar"></span></div>
+              <div class="lab3d__camera-help">Drag: rotate · Wheel/pinch: zoom · Tap: select</div>
+              <button class="lab3d__camera-reset" id="lab3d-reset-camera" type="button" aria-label="Reset 3D camera">Reset view</button>
+              <div class="lab3d__toast" id="lab3d-toast" role="status" aria-live="polite"></div>
+            </div>
+
+            <aside class="lab3d__dock" aria-label="3D circuit controls">
+              <fieldset class="lab3d__build-mode">
+                <legend>Build mode</legend>
+                <div class="lab3d__segmented">
+                  <label><input id="lab3d-mode-guided" type="radio" name="lab3d-build-mode" value="guided" checked /><span>Guided</span></label>
+                  <label><input id="lab3d-mode-self" type="radio" name="lab3d-build-mode" value="self" /><span>Self-build</span></label>
+                </div>
+              </fieldset>
+
+              <div class="lab3d__instruction">
+                <span id="lab3d-instruction-label">Next connection</span>
+                <strong id="lab3d-instruction">Uno VIN → positive rail</strong>
+              </div>
+
+              <fieldset class="lab3d__control-group" id="lab3d-control-group" disabled>
+                <legend>Operate the light</legend>
+                <div class="lab3d__control-buttons">
+                  <button id="lab3d-auto" type="button">Automatic <small>PIR</small></button>
+                  <button id="lab3d-on" type="button">Leave ON <small>1</small></button>
+                  <button id="lab3d-off" type="button">Turn OFF <small>0</small></button>
+                </div>
+                <button class="lab3d__action" id="lab3d-motion" type="button">Simulate motion</button>
+                <button class="lab3d__action" id="lab3d-disconnect" type="button">Disconnect Bluetooth</button>
+              </fieldset>
+
+              <section class="lab3d__inspector" aria-labelledby="lab3d-inspector-title">
+                <span>Component inspector</span>
+                <h4 id="lab3d-inspector-title">Select a component</h4>
+                <p id="lab3d-inspector-body">Tap a board or module to understand its role in the circuit.</p>
+                <p id="lab3d-inspector-connections"></p>
+              </section>
+
+              <button class="lab3d__reset-wiring" id="lab3d-reset-wiring" type="button">Reset all wiring</button>
+            </aside>
+          </div>
+
+          <div class="lab3d__fallback" id="lab3d-fallback" hidden>
+            <strong>The 3D lab is unavailable on this browser.</strong>
+            <p>The article’s connection table and build guide still document the complete control-side circuit.</p>
+            <a href="#build-guide">Open the build guide ↓</a>
+          </div>
+
+          <p class="lab3d__footnote">Historical control-side reconstruction. The photo-confirmed VIN rail is represented for accuracy, not recommended as modern replication guidance. The enclosed household-load path is intentionally locked.</p>
+        </section>
+
+        <h2 id="impact">More than just a college project</h2>
+        <p>I still think about the impact this project had on me. What started as an attempt to impress our lecturers became something much more meaningful.</p>
+        <p>I went into it knowing very little about electronics and came out with a better understanding of how hardware and software work together. More than anything, it introduced me to the joy of research: moving from one webpage to another, one video to the next, trying to understand something that made absolutely no sense a few hours earlier—then finally getting it to work.</p>
+        <p>There is something incredibly satisfying about that. I genuinely don’t think I would approach technology the way I do today without experiences like this one. It made me realise I did not need to know how to build something before deciding to try. I could figure things out along the way.</p>
+        <blockquote>Choose a project that genuinely interests you—even if you have absolutely no idea how to build it yet.</blockquote>
+
+        <h2 id="build-guide">Build the motion sensor light—then make it smart</h2>
+        <p>Our project was an actual working household light, not just an LED demonstration. For the original Arduino, PIR, relay, and bulb foundation, the clearest starting point is the <a href="https://www.youtube.com/watch?v=8wiCwrIaIT8">same YouTube tutorial we followed</a>. Credit where it is due: that video explains the base motion-sensor build far better than I could reconstruct it from memory years later.</p>
+        <div class="callout callout--safety"><strong>One practical boundary:</strong> the tutorial includes a household-powered load. Follow the creator’s precautions and use qualified help if you are not trained to work around mains electricity. The smart-light material below focuses on the Arduino control side—the part we added.</div>
+
+        <h3>What turns it into a smart light?</h3>
+        <p>The HC-06 added a second input path. The PIR could still tell the Arduino that movement had been detected, while an Android phone could send a manual command over Bluetooth. The Arduino’s program then decided whether the relay should follow motion or the latest phone command.</p>
+        <div class="system-diagram" role="img" aria-label="PIR sensor and Android app through HC-06 both send inputs to the Arduino, which controls the relay and light">
+          <div class="system-diagram__flow"><div class="system-node"><strong>PIR + Android app</strong><small>automatic or manual input</small></div><span class="system-arrow" aria-hidden="true">→</span><div class="system-node"><strong>Arduino Uno</strong><small>chooses the active control path</small></div><span class="system-arrow" aria-hidden="true">→</span><div class="system-node"><strong>Relay + lamp</strong><small>physical light output</small></div></div>
+        </div>
+
+        <h3>Download the original Android app project</h3>
+        <a class="download-card" href="downloads/Smart_Light.aia" download>
+          <span><strong>Smart_Light.aia</strong><small>Original MIT App Inventor project · 2.3 KB</small></span>
+          <span aria-hidden="true">Download ↓</span>
+        </a>
+        <p>The archive confirms the interface and command logic: it lists paired Bluetooth devices, attempts to connect to the selected device, sends <code>1</code> when <strong>Leave ON</strong> is pressed, and sends <code>0</code> when <strong>Turn OFF</strong> is pressed. It does not contain the Arduino firmware.</p>
+
+        <h3>How the HC-06 connection works</h3>
+        <p>The HC-06 behaves like a wireless serial cable. In our build, we used the Uno’s hardware serial pins rather than the software-serial pins from the surviving example: the module’s <strong>TX</strong> went to Arduino <strong>0/RX</strong>, and Arduino <strong>1/TX</strong> went to the module’s <strong>RX</strong>. The module was also connected directly to Arduino <strong>5V</strong> and <strong>GND</strong> with male-to-female jumpers.</p>
+        <p>We did not use a voltage divider or level shifter, as far as I remember. That records what we built; it is not a blanket recommendation for every HC-06 breakout. Check the labels and electrical requirements of the exact board in front of you.</p>
+
+        <h3>The exact components we used</h3>
+        <ul>
+          <li><a href="https://www.amazon.com/dp/B01EWOE0UU">ELEGOO Uno R3-compatible controller board</a></li>
+          <li><a href="https://www.amazon.com/dp/B07KZW86YR">HiLetgo HC-SR501 PIR motion sensor</a></li>
+          <li><a href="https://www.amazon.com/dp/B095YD3732">AEDIKO single-channel 5V optocoupler relay module</a> with selectable high/low trigger</li>
+          <li><a href="https://www.amazon.com/dp/B01CKW4FSI">HiLetgo HC-06 Bluetooth serial transceiver</a></li>
+        </ul>
+
+        <h3>The 2023 control-side wiring</h3>
+        <table class="parts">
+          <thead><tr><th>Connection</th><th>What it did</th></tr></thead>
+          <tbody>
+            <tr><td>9V battery holder → Uno barrel connector</td><td>Powered the Arduino through its dedicated DC jack.</td></tr>
+            <tr><td>Uno VIN → breadboard positive rail; Uno GND → negative rail</td><td>Fed the rails used by the PIR and relay in the physical prototype. The surviving photographs confirm this was the connection we made.</td></tr>
+            <tr><td>PIR OUT → D2; PIR power pins → positive and negative rails</td><td>Sent the motion signal to the Arduino.</td></tr>
+            <tr><td>Relay IN → D9; DC+ and DC− → positive and negative rails</td><td>Let the Arduino energise the relay. Its selector jumper was on the two pins nearest <strong>H</strong>, configuring a high-level trigger.</td></tr>
+            <tr><td>HC-06 TX → Uno 0/RX; Uno 1/TX → HC-06 RX</td><td>Used the Uno’s hardware serial connection for Bluetooth commands.</td></tr>
+            <tr><td>HC-06 VCC → Uno 5V; HC-06 GND → Uno GND</td><td>Powered the Bluetooth breakout directly from the Arduino.</td></tr>
+          </tbody>
+        </table>
+        <div class="callout"><strong>A historical detail, not a recommendation:</strong> the photographs confirm that our positive breadboard rail came from <code>VIN</code>, while the Arduino’s separate 5V pin powered the HC-06. That is what we built, even if it is not the arrangement I would recommend today. Because the exact relay is a 5V module and VIN sits on the barrel-supply side of the board, treat this as documentation of the prototype—not a circuit to copy without first measuring the rail and choosing an appropriate regulated supply.</div>
+        <p>On the relay’s load side, the stripped brown conductor from the lamp cable was interrupted through <strong>COM</strong> and <strong>NO</strong>. The bulb socket itself was wired by us. I am recording that as project history, not turning the household-voltage side into a step-by-step wiring exercise.</p>
+
+        <h3>What the Arduino program needs to do</h3>
+        <ol>
+          <li>Read the PIR signal during automatic operation.</li>
+          <li>Listen for serial text from the HC-06.</li>
+          <li>Treat <code>1</code> as a request to leave the light on and <code>0</code> as a request to turn it off.</li>
+          <li>Store the active control mode so the next PIR reading does not immediately undo a manual command.</li>
+          <li>Return control to the PIR when Bluetooth disconnects.</li>
+        </ol>
+        <p>In the finished build, disconnecting Bluetooth returned the light to automatic PIR control. The final flashed sketch is still missing, so the exact disconnect-detection code is the one remaining software detail I cannot reproduce line for line.</p>
+
+        <h2>What would I do differently today?</h2>
+        <p>I would document the wiring and code properly, for one. Having the original program years later would have made writing this article a whole lot easier.</p>
+        <p>I would also spend more time thinking about the enclosure and maintainability. If I rebuilt the app, I would add an explicit <strong>Automatic Mode</strong> control beside the manual commands so the behaviour is unambiguous.</p>
+        <p>But I would not trade the experience of figuring it all out. The trial and error was part of what made the project worthwhile.</p>
+
+        <h2>A few other project ideas</h2>
+        <p>The same sensor-and-control concepts could become a motion-activated desk light, a room-occupancy indicator, an automated plant-watering reminder, or a Bluetooth-controlled LED display. You do not need an expensive kit or an incredibly complicated idea to learn something worthwhile.</p>
+        <p>Sometimes all you need is an Arduino, a few components, an idea, and a willingness to spend far too many hours figuring out why something isn’t working.</p>
+
+        <h2 id="faq">Frequently asked questions</h2>
+        <div class="faq">
+          <details><summary>Can I build a motion sensor light with an Arduino Uno?</summary><p>Yes. An Arduino Uno can read a PIR sensor and control a relay-based light. The motion-sensor tutorial linked above is the foundation we followed; the Bluetooth module and Android app are what turned our version into a smart light.</p></details>
+          <details><summary>What is the difference between a motion sensor light and a smart light?</summary><p>A basic motion sensor light responds automatically to movement. Adding an app or another control interface allows extra behaviours such as manual ON and OFF commands.</p></details>
+          <details><summary>Can I control an Arduino using an Android app?</summary><p>Yes. Our project used MIT App Inventor and an HC-06 Bluetooth module to send simple text commands from an Android phone to an Arduino.</p></details>
+          <details><summary>What can I do in the interactive circuit simulator?</summary><p>You can connect all twelve documented control-side wires, trigger the PIR sensor, switch between automatic and manual control, send the app’s original <code>1</code> and <code>0</code> commands, and disconnect Bluetooth to return the light to automatic mode. Incorrect pairings are rejected, so the interaction teaches the real component roles without inventing new wiring.</p></details>
+        </div>
+
+        <h2>Final thoughts</h2>
+        <p>If there is one thing I want someone to take away from this project, it is that you do not need to know everything before you start building. Sacchin and I certainly did not.</p>
+        <p>We began with an idea, a YouTube tutorial, and a very limited understanding of electronics. Somewhere between the failed attempts, hours of research, and figuring things out, we learned far more than we originally set out to.</p>
+        <p>Bish bash boosh. That is what made the project worth it.</p>
+
+        <section class="comments" id="comments" aria-labelledby="comments-title">
+          <div class="comments__head">
+            <div><p class="comments__eyebrow">Join the conversation</p><h2 id="comments-title">Comments</h2></div>
+            <p>Questions, build notes, and thoughtful corrections are welcome. Comments are hosted through GitHub and load only when you choose to open them.</p>
+          </div>
+          <button class="comments__load" id="load-comments" type="button">Load comments <span aria-hidden="true">↘</span></button>
+          <div class="comments__thread" id="comments-thread" aria-live="polite"></div>
+          <noscript><p class="comments__fallback">JavaScript is required for the embedded thread. You can still <a href="https://github.com/AumariZJoseph/personal-webiste/issues">join the conversation on GitHub</a>.</p></noscript>
+        </section>
+
+        <footer class="article-end"><a href="../">← Read more from the writing archive</a></footer>
+      </article>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="site-footer__inner"><span>© 2026 Aumari Joseph · Saint Lucia, W.I.</span><span>Built with curiosity.</span></div>
+  </footer>
+  <script src="simulator-3d-loader.js" defer></script>
+  <script src="comments.js" defer></script>
+</body>
+</html>
