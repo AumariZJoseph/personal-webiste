@@ -893,7 +893,7 @@
     margin: 0;
     word-break: break-all;
   }
-  
+
   .client__action {
     display: inline-flex;
     align-items: center;
@@ -908,6 +908,89 @@
     transition: color .18s ease;
   }
   
+
+  /* =========================================================
+     TESTIMONIALS
+     ========================================================= */
+  .testimonials {
+    background: var(--paper-2);
+    border-top: 1px solid var(--rule-soft);
+    border-bottom: 1px solid var(--rule-soft);
+  }
+  #testimonials-title { scroll-margin-top: calc(var(--nav-h) + 24px); }
+
+  .testimonials__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.18fr) minmax(0, .82fr);
+    grid-template-areas:
+      "featured turf"
+      "featured solar";
+    gap: 14px;
+  }
+
+  .testimonial {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 28px;
+    min-height: 0;
+    margin: 0;
+    padding: clamp(24px, 3vw, 32px);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-card);
+  }
+  .testimonial:nth-child(2) { grid-area: turf; }
+  .testimonial:nth-child(3) { grid-area: solar; }
+
+  .testimonial--featured {
+    grid-area: featured;
+    background: var(--piton-green);
+    border-color: var(--piton-green);
+    box-shadow: 0 22px 48px -32px rgba(8, 69, 51, .72);
+  }
+
+  .testimonial blockquote { margin: 0; }
+  .testimonial blockquote p {
+    margin: 0;
+    font-family: var(--f-display);
+    font-size: clamp(20px, 2.25vw, 29px);
+    font-weight: 600;
+    line-height: 1.32;
+    letter-spacing: -.025em;
+    color: var(--ink);
+  }
+  .testimonial:not(.testimonial--featured) blockquote p {
+    font-size: clamp(17px, 1.55vw, 21px);
+    line-height: 1.4;
+  }
+  .testimonial--featured blockquote p { color: #fff; }
+
+  .testimonial figcaption {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    padding-top: 16px;
+    border-top: 1px solid var(--rule-soft);
+  }
+  .testimonial--featured figcaption { border-color: rgba(255, 255, 255, .22); }
+
+  .testimonial__name {
+    font-family: var(--f-body);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+  .testimonial__role {
+    font-size: 12px;
+    line-height: 1.45;
+    color: var(--ink-2);
+  }
+  .testimonial--featured .testimonial__name,
+  .testimonial--featured .testimonial__role { color: rgba(255, 255, 255, .9); }
+  .testimonial--featured .testimonial__role { color: rgba(255, 255, 255, .72); }
+
   
   /* =========================================================
      PROJECTS
@@ -1362,6 +1445,10 @@
     .client__logo { width: 140px; height: 52px; }
     .client__logo--wide { width: 160px; }
     .client__action { margin-left: 0; width: 100%; }
+    .testimonials__grid {
+      grid-template-columns: 1fr;
+      grid-template-areas: "featured" "turf" "solar";
+    }
     .project { grid-template-columns: 1fr; }
     .channels { grid-template-columns: repeat(2, 1fr); }
   }
